@@ -15,6 +15,9 @@ class CreateSeriesTable extends Migration
     {
         Schema::create('series', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('api_id');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
