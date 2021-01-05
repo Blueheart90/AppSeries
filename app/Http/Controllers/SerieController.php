@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Serie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class SerieController extends Controller
 {
@@ -14,7 +15,38 @@ class SerieController extends Controller
      */
     public function index()
     {
-        //
+        // Categorias Peliculas
+        // $genreArray = Http::withToken(config('services.tmdb.token'))
+        //     ->get('https://api.themoviedb.org/3/genre/movie/list', ['language' => 'es-mx'])
+        //     ->json()['genres'];
+        // $genre =  collect($genreArray)->mapWithKeys(function ($genre){
+        //     return [$genre['id'] => $genre['name']];
+        // });
+
+        // Categorias Tv
+        // $genreArray = Http::withToken(config('services.tmdb.token'))
+        //     ->get('https://api.themoviedb.org/3/genre/tv/list', ['language' => 'es-mx'])
+        //     ->json()['genres'];
+        // $genre =  collect($genreArray)->mapWithKeys(function ($genre){
+        //     return [$genre['id'] => $genre['name']];
+        // });
+
+        // Series populares
+        $trendingTv = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/trending/tv/week', ['language' => 'es-mx'])
+            ->json()['results'];
+
+        // Peliculas populares
+        $trendingMovie = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/trending/movie/week', ['language' => 'es-mx'])
+            ->json()['results'];
+
+
+
+        dd($trendingMovie);
+        // return phpinfo();
+
+
     }
 
     /**

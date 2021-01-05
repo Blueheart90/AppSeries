@@ -9,12 +9,30 @@
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
-
+                {{-- Array de nav links --}}
+                @php
+                    $navLinks = [
+                        ['href' => 'inicio', 'name' => 'inicio', 'text' => 'Inicio'],
+                        ['href' => 'series', 'name' => 'series', 'text' => 'Series'],
+                        ['href' => 'peliculas', 'name' => 'peliculas', 'text' => 'Peliculas'],
+                    ];
+                @endphp
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    @foreach ($navLinks as $link)
+                        <x-jet-nav-link href="{{ route($link['href']) }}" :active="request()->routeIs($link['name'])">
+                            {{ __($link['text']) }}
+                        </x-jet-nav-link>
+                    @endforeach
+
+
+
+                    {{-- <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                        {{ __('Users') }}
+                    </x-jet-nav-link> --}}
                 </div>
             </div>
 
@@ -117,9 +135,13 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-jet-responsive-nav-link>
+            @foreach ($navLinks as $link)
+                <x-jet-responsive-nav-link href="{{ route($link['href']) }}" :active="request()->routeIs($link['name'])">
+                    {{ __($link['text']) }}
+
+                </x-jet-responsive-nav-link>
+            @endforeach
+
         </div>
 
         <!-- Responsive Settings Options -->
