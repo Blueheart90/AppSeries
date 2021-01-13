@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Serie;
 use Illuminate\Http\Request;
+use App\ViewModels\TvViewModel;
 use Illuminate\Support\Facades\Http;
 
 class SerieController extends Controller
@@ -23,32 +24,54 @@ class SerieController extends Controller
         //     return [$genre['id'] => $genre['name']];
         // });
 
-        // Categorias Tv
-        $genre = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/genre/tv/list', ['language' => 'es-mx'])
-            ->json()['genres'];
+        // Peliculas populares
+        // $popularMovie = Http::withToken(config('services.tmdb.token'))
+        //     ->get('https://api.themoviedb.org/3/trending/movie/week', ['language' => 'es-mx'])
+        //     ->json()['results'];
+
 
         // $genre =  collect($genreArray)->mapWithKeys(function ($genre){
         //     return [$genre['id'] => $genre['name']];
         // });
-
 
         // Series populares
         $popularTv = Http::withToken(config('services.tmdb.token'))
             ->get('https://api.themoviedb.org/3/trending/tv/week', ['language' => 'es-mx'])
             ->json()['results'];
 
-        // Peliculas populares
-        $popularMovie = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/trending/movie/week', ['language' => 'es-mx'])
+        // Mejor calificadas
+        $topRatedTv = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/tv/top_rated', ['language' => 'es-mx'])
             ->json()['results'];
 
+        // Categorias Tv
+        $genres = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/genre/tv/list', ['language' => 'es-mx'])
+            ->json()['genres'];
 
-            // dd($genre);
-        return view('series.home', compact('popularTv','genre'));
-        // return phpinfo();
+        // $genremod =  collect($genres)->mapWithKeys(function ($genre){
+        //     return [$genre['id'] => $genre['name']];
+        // });
 
+        $viewModel = new TvViewModel(
+            $popularTv,
+            $topRatedTv,
+            $genres,
+        );
 
+        // collect($popularTv)->map(function ($tvshow){
+        //     $genresFormatted = collect($tvshow['genre_ids'])->mapWithKeys(function ($value){
+        //         return [$value => $this->genres()->get($value)];
+        //     });
+        // });
+        //  return $genresFormatted;
+
+        // $prueba = collect($popularTv)->first();
+        // $genresFormatted = collect($prueba['genre_ids'])->mapWithKeys(function ($value){
+        //     return ['id' => $value];
+        // })->implode(',');
+
+        return view('series.home', $viewModel);
     }
 
     /**
