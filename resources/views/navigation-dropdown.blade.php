@@ -12,9 +12,9 @@
                 {{-- Array de nav links --}}
                 @php
                     $navLinks = [
-                        ['href' => 'inicio', 'name' => 'inicio', 'text' => 'Inicio'],
+                        // ['href' => 'inicio', 'name' => 'inicio', 'text' => 'Inicio'],
                         ['href' => 'series', 'name' => 'series', 'text' => 'Series'],
-                        ['href' => 'peliculas', 'name' => 'peliculas', 'text' => 'Peliculas'],
+                        // ['href' => 'peliculas', 'name' => 'peliculas', 'text' => 'Peliculas'],
                     ];
                 @endphp
                 <!-- Navigation Links -->

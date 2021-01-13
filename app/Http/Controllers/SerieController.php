@@ -24,26 +24,28 @@ class SerieController extends Controller
         // });
 
         // Categorias Tv
-        // $genreArray = Http::withToken(config('services.tmdb.token'))
-        //     ->get('https://api.themoviedb.org/3/genre/tv/list', ['language' => 'es-mx'])
-        //     ->json()['genres'];
+        $genre = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/genre/tv/list', ['language' => 'es-mx'])
+            ->json()['genres'];
+
         // $genre =  collect($genreArray)->mapWithKeys(function ($genre){
         //     return [$genre['id'] => $genre['name']];
         // });
 
+
         // Series populares
-        $trendingTv = Http::withToken(config('services.tmdb.token'))
+        $popularTv = Http::withToken(config('services.tmdb.token'))
             ->get('https://api.themoviedb.org/3/trending/tv/week', ['language' => 'es-mx'])
             ->json()['results'];
 
         // Peliculas populares
-        $trendingMovie = Http::withToken(config('services.tmdb.token'))
+        $popularMovie = Http::withToken(config('services.tmdb.token'))
             ->get('https://api.themoviedb.org/3/trending/movie/week', ['language' => 'es-mx'])
             ->json()['results'];
 
 
-
-        dd($trendingMovie);
+            // dd($genre);
+        return view('series.home', compact('popularTv','genre'));
         // return phpinfo();
 
 
