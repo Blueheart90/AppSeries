@@ -33117,30 +33117,49 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.esm.js");
-// import Swiper JS
+// import Swiper JS and modules
+ // configure Swiper to use modules
 
-var mySwiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.swiper-container', {
+swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_0__["Navigation"], swiper__WEBPACK_IMPORTED_MODULE_0__["Pagination"], swiper__WEBPACK_IMPORTED_MODULE_0__["Autoplay"]]);
+var swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.swiper-container', {
   slidesPerView: 1,
-  spaceBetween: 10,
-  // init: false,
+  spaceBetween: 15,
+  autoplay: {
+    delay: 2500,
+    disableOnInteraction: false
+  },
   pagination: {
     el: '.swiper-pagination',
     clickable: true
   },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev'
+  },
   breakpoints: {
+    // when window width is >= 640px
     640: {
-      slidesPerView: 2,
-      spaceBetween: 20
+      slidesPerView: 3,
+      spaceBetween: 15
     },
-    768: {
+    // when window width is >= 868px
+    868: {
       slidesPerView: 4,
-      spaceBetween: 40
+      spaceBetween: 15
     },
+    // when window width is >= 1024px
     1024: {
       slidesPerView: 5,
-      spaceBetween: 50
+      spaceBetween: 15
     }
   }
+});
+var el = document.querySelector(".swiper-container");
+el.addEventListener('mouseover', function () {
+  swiper.autoplay.stop();
+});
+el.addEventListener('mouseout', function () {
+  swiper.autoplay.start();
 });
 
 /***/ }),
