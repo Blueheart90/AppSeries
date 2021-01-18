@@ -11,23 +11,16 @@
                     <x-slot name="titulo">
                         Series Populares
                     </x-slot>
-                    <!-- Swiper -->
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                             @foreach ($popularTv as $tvshow)
-                                <x-tv-card :tvshow="$tvshow" isslider="true"/>
-                            @endforeach
+                    <x-swiper>
+                        @foreach ($popularTv as $tvshow)
+                            <x-tv-card :tvshow="$tvshow" isslider="true"/>
+                        @endforeach
+                    </x-swiper>
 
-                        </div>
-                        <!-- Add Pagination -->
-                        <div class="swiper-pagination pt-5 static"></div>
-                        <!-- Add Arrows -->
-                        {{-- <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div> --}}
-                    </div>
                 </x-contenido>
             </div>
         </div>
     </div>
+
 </x-app-layout>
 

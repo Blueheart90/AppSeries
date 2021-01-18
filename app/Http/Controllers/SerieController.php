@@ -72,6 +72,7 @@ class SerieController extends Controller
         // })->implode(',');
 
         return view('series.home', $viewModel);
+        // return view('series.home');
     }
 
     /**
