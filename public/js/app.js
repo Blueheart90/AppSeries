@@ -36229,7 +36229,7 @@ var swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.swiper-contain
     },
     // when window width is >= 1024px
     1024: {
-      slidesPerView: 5,
+      slidesPerView: 6,
       spaceBetween: 15
     }
   }
