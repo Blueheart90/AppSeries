@@ -16,37 +16,31 @@ class SerieController extends Controller
      */
     public function index()
     {
-        // Categorias Peliculas
-        // $genreArray = Http::withToken(config('services.tmdb.token'))
-        //     ->get('https://api.themoviedb.org/3/genre/movie/list', ['language' => 'es-mx'])
-        //     ->json()['genres'];
-        // $genre =  collect($genreArray)->mapWithKeys(function ($genre){
-        //     return [$genre['id'] => $genre['name']];
-        // });
-
-        // Peliculas populares
-        // $popularMovie = Http::withToken(config('services.tmdb.token'))
-        //     ->get('https://api.themoviedb.org/3/trending/movie/week', ['language' => 'es-mx'])
-        //     ->json()['results'];
-
-
-        // $genre =  collect($genreArray)->mapWithKeys(function ($genre){
-        //     return [$genre['id'] => $genre['name']];
-        // });
+        // Querys
+        $language = 'es-mx';
+        // Series tentencia
+        $trendingTv = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/trending/tv/week', ['language' => $language])
+            ->json()['results'];
 
         // Series populares
         $popularTv = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/trending/tv/week', ['language' => 'es-mx'])
+            ->get('https://api.themoviedb.org/3/tv/popular', ['language' => $language])
+            ->json()['results'];
+
+        // Series al aire
+        $onAirTv = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/tv/on_the_air', ['language' => $language])
             ->json()['results'];
 
         // Mejor calificadas
         $topRatedTv = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/tv/top_rated', ['language' => 'es-mx'])
+            ->get('https://api.themoviedb.org/3/tv/top_rated', ['language' => $language])
             ->json()['results'];
 
         // Categorias Tv
         $genres = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/genre/tv/list', ['language' => 'es-mx'])
+            ->get('https://api.themoviedb.org/3/genre/tv/list', ['language' => $language])
             ->json()['genres'];
 
         // $genremod =  collect($genres)->mapWithKeys(function ($genre){
@@ -54,7 +48,9 @@ class SerieController extends Controller
         // });
 
         $viewModel = new TvViewModel(
+            $trendingTv,
             $popularTv,
+            $onAirTv,
             $topRatedTv,
             $genres,
         );

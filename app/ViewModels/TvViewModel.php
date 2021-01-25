@@ -7,20 +7,32 @@ use Spatie\ViewModels\ViewModel;
 
 class TvViewModel extends ViewModel
 {
+    public $trendingTv;
     public $popularTv;
+    public $onAirTv;
     public $topRatedTv;
     public $genres;
 
-    public function __construct($popularTv, $topRatedTv, $genres)
+    public function __construct($trendingTv, $popularTv, $onAirTv, $topRatedTv, $genres)
     {
+        $this->trendingTv = $trendingTv;
         $this->popularTv = $popularTv;
+        $this->onAirTv = $onAirTv;
         $this->topRatedTv = $topRatedTv;
         $this->genres = $genres;
     }
 
+    public function trendingTv()
+    {
+        return $this->formatTv($this->trendingTv);
+    }
     public function popularTv()
     {
         return $this->formatTv($this->popularTv);
+    }
+    public function onAirTv()
+    {
+        return $this->formatTv($this->onAirTv);
     }
 
     public function topRatedTv()

@@ -1,4 +1,4 @@
-<div class="{{ $isslider  ? 'swiper-slide' : ''}} mt-8" x-data="{ open: false }"  >
+<div class="{{ $isslider  ? 'swiper-slide' : ''}}">
     <a  href="">
         <img src="{{ $tvshow['poster_path'] }}" alt="poster" class="  hover:opacity-75 transition ease-in-out duration-150">
     </a>
