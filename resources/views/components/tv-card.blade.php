@@ -1,6 +1,6 @@
 <div class="{{ $isslider  ? 'swiper-slide' : ''}}">
     <a  href="">
-        <img  src="{{ $tvshow['poster_path'] }}" loading=lazy alt="poster" class="  hover:opacity-75 transition ease-in-out duration-150">
+        <img  data-src="{{ $tvshow['poster_path'] }}" alt="poster" class="lazyload  hover:opacity-75 transition ease-in-out duration-150">
     </a>
     <div class="mt-2">
         <a href="" class="text-lg mt-2 hover:text-gray-300">{{ $tvshow['name'] }}</a>

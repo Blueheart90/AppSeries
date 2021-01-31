@@ -1,4 +1,4 @@
-<article class="p-2">
+<article {!! $attributes->merge(['class' => 'p-2']) !!}>
     <div class="text-lg py-1 px-4 text-teal-600 font-bold">{{$titulo}}</div>
     <ul class=" pt-2">
 
@@ -10,7 +10,7 @@
                             <a href="">
                                 <span class="absolute pl-3.5 pr-2  bg-teal-500 rounded-br-md text-white font-bold text-xs">{{$loop->iteration}}</span>
                                 <span class="absolute bottom-0 right-0 px-2  bg-teal-500 rounded-tl-md text-white text-xs">{{ $tvshow['year'] }}</span>
-                                <img class=" w-16" src="{{ $tvshow['poster_path'] }}" alt="poster">
+                                <img class="lazyload w-16" data-src="{{ $tvshow['poster_path'] }}" alt="poster">
                             </a>
                         </figure>
                     </div>
