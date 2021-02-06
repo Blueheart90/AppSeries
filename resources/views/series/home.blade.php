@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             Series
         </h2>
     </x-slot>
     <div class="py-12">
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                 <x-contenido>
                     <x-slot name="titulo">
                         Tendencia Esta Semana
@@ -17,22 +17,25 @@
                         @endforeach
                     </x-swiper>
                     <div class="grid grid-cols-4 gap-4 mt-6" x-data="main()" >
-                        <div class=" col-span-4 lg:col-span-3">
-                            <div class="flex justify-between flex-col sm:flex-row">
+                        <div class="col-span-4 lg:col-span-3">
+                            <div class="flex flex-col justify-between sm:flex-row ">
                                 @php
                                     $navList = [
                                         ['name' => 'Estrenos', 'href' => 'estrenos', 'option' => 'option-1'],
                                         ['name' => 'Populares', 'href' => 'populares', 'option' => 'option-2'],
                                         ['name' => 'Al Aire', 'href' => 'al-aire', 'option' => 'option-3'],
                                         ['name' => 'Categorias', 'href' => 'categorias', 'option' => 'option-4'],
-                                    ]
+                                ];
                                 @endphp
                                 <ul class="flex text-base sm:text-lg">
                                     @foreach ($navList as $item)
                                         <li class="p-2" >
                                             <a class="select-none" :class="{ 'border-b-2 border-teal-400 text-gray-800 font-bold': selected === '{{$item['option']}}' }" href="/{{$item['href']}}" x-on:click.prevent @click="selected = '{{$item['option']}}', filter = false">{{$item['name']}}</a>
                                         </li>
-                                    @endforeach
+                                        @endforeach
+                                        <li class="p-2" >
+                                            <a class="select-none"  x-on:click.prevent @click="pages()">prueba</a>
+                                        </li>
                                 </ul>
                                 <div class="relative">
                                     <x-jet-input class="" placeholder="Buscar serie" x-model="searchValue" @keyUp.debounce.750="search()">
@@ -41,22 +44,22 @@
 
                             </div>
 
-                            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"  x-show.transition.in.opacity.duration.750ms="selected === 'option-1'">
+                            <div class="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"  x-show.transition.in.opacity.duration.750ms="selected === 'option-1'">
 
 
                             </div>
-                            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"  x-show.transition.in.opacity.duration.750ms="selected === 'option-2'">
+                            <div class="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"  x-show.transition.in.opacity.duration.750ms="selected === 'option-2'">
                                 @foreach ($popularTv as $tvshow)
                                     <x-tv-card class="" :tvshow="$tvshow"/>
                                 @endforeach
                             </div>
-                            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"  x-show.transition.in.opacity.duration.750ms="selected === 'option-3'">
+                            <div class="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"  x-show.transition.in.opacity.duration.750ms="selected === 'option-3'">
                                 @foreach ($onAirTv as $tvshow)
                                     <x-tv-card class="" :tvshow="$tvshow"/>
                                 @endforeach
                             </div>
                             <div class="mt-8"  x-show.transition.in.opacity.duration.750ms="selected === 'option-4'">
-                                <h3 class="ml-4 mb-4">Filtrar Por Categoria:</h3>
+                                <h3 class="mb-4 ml-4">Filtrar Por Categoria:</h3>
                                 <x-widget-genres class="mb-4" :genres="$genres"></x-widget-genres>
                                 <x-search-results></x-search-results>
 
@@ -65,26 +68,38 @@
                                 <x-search-results></x-search-results>
                                 <div class="flex flex-col items-center my-12">
                                     <div class="flex text-gray-700">
-                                        <div class="h-8 w-8 mr-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left w-4 h-4">
+                                        <button class="flex items-center justify-center w-8 h-8 mr-1 bg-gray-200 rounded-full cursor-pointer focus:outline-none active:bg-teal-300" @click="prevPage()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 feather feather-chevron-left">
                                                 <polyline points="15 18 9 12 15 6"></polyline>
                                             </svg>
+                                        </button>
+                                        <div class="flex h-8 font-medium bg-gray-200 rounded-full select-none">
+
+
+                                            <template x-for="(page, index) in array_pages">
+                                                <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[index] }" @click="current_page = array_pages[index]" x-text="array_pages[index]"></div>
+                                            </template>
+
+
+                                            {{-- <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[0] }" @click="current_page = array_pages[0]" x-text="array_pages[0]"></div>
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[1] }" @click="current_page = array_pages[1]" x-text="array_pages[1]"></div>
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[2] }" @click="current_page = array_pages[2]" x-text="array_pages[2]"></div>
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[3] }" @click="current_page = array_pages[3]" x-text="array_pages[3]"></div>
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[4] }" @click="current_page = array_pages[4]" x-text="array_pages[4]"></div>
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[5] }" @click="current_page = array_pages[5]" x-text="array_pages[5]"></div>
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " :class="{'text-white bg-pink-600' : current_page === array_pages[6] }" @click="current_page = array_pages[6]" x-text="array_pages[6]"></div> --}}
+                                            {{-- <div class="items-center justify-center hidden w-8 leading-5 text-white transition duration-150 ease-in bg-pink-600 rounded-full cursor-pointer md:flex ">1</div> --}}
+
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex ">de</div>
+                                            <div class="items-center justify-center hidden w-8 leading-5 transition duration-150 ease-in rounded-full cursor-pointer md:flex " x-text="total_pages"></div>
+
+                                            <div class="flex items-center justify-center w-8 h-8 leading-5 text-white transition duration-150 ease-in bg-pink-600 rounded-full cursor-pointer md:hidden">1</div>
                                         </div>
-                                        <div class="flex h-8 font-medium rounded-full bg-gray-200">
-                                            <div class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  ">1</div>
-                                            <div class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  ">...</div>
-                                            <div class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  ">3</div>
-                                            <div class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-pink-600 text-white ">4</div>
-                                            <div class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  ">5</div>
-                                            <div class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  ">...</div>
-                                            <div class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  ">15</div>
-                                            <div class="w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white">4</div>
-                                        </div>
-                                        <div class="h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right w-4 h-4">
+                                        <button class="flex items-center justify-center w-8 h-8 ml-1 bg-gray-200 rounded-full cursor-pointer focus:outline-none active:bg-teal-300" @click="nextPage()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 feather feather-chevron-right">
                                                 <polyline points="9 18 15 12 9 6"></polyline>
                                             </svg>
-                                        </div>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -112,6 +127,64 @@
                 selectedGenre: [],
                 stringGenre: '',
                 searchValue: '',
+                total_pages: 0,
+                current_page: 1,
+                array_pages: [1],
+                pages: function(){
+
+                    this.current_page = 1;
+                    if (this.total_pages <= 6) {
+                        this.array_pages = Array.from({length: this.total_pages}, (v, i) => i + 1);
+                    }else{
+                        this.array_pages = Array.from({length: 7}, (v, i) => i + 1);
+                    }
+
+                    // console.log('desde pages');
+                    // console.log(Object.values(this.array_pages));
+
+                },
+                prevPage: function(){
+                    if (this.current_page > 1) {
+                        this.current_page--;
+                        console.log(this.current_page);
+                        if (this.array_pages[0] > 1) {
+                            this.array_pages = Array.from(this.array_pages, x => x - 1);
+                        }
+                    }
+
+                },
+                nextPage: function(){
+                    if (this.current_page < this.total_pages) {
+
+                        if (this.array_pages.indexOf(this.current_page) < 4) {
+
+                            this.current_page++;
+                            console.log('menor a 4 ', this.array_pages.indexOf(this.current_page));
+                            // console.log([1,2,3,4,5,6,7].indexOf(this.current_page));
+
+                        }else{
+                            // // solo actializa el array si el ultimo item es distinto del total de paginas
+                            if (this.array_pages[this.array_pages.length - 1] < this.total_pages ) {
+                                console.log('ultimo ', this.array_pages[this.array_pages.length - 1]);
+                                this.array_pages = Array.from(this.array_pages, x => x + 1);
+                                this.current_page++;
+                                // console.log(this.current_page);
+
+                            }else{
+                                // si el vector ya llego a su fin (el ultimo item es = total_pages, incrementa current_page)
+                                this.current_page++;
+                            }
+                        }
+                    }
+
+
+
+
+                        // console.log(Object.values(this.array_pages));
+                        // this.array_pages = Array.from(this.array_pages, x => x + 1);
+                        // // console.log(this.current_page);
+
+                },
                 addGenres: function(id) {
 
                     // Remueve el genero si este existe en el array o lo agrega al final del mismo
@@ -123,7 +196,7 @@
                     }
                     // convierte array a string separado por comas (,)
                     this.stringGenre = this.selectedGenre.join();
-                    console.log(this.stringGenre);
+                    console.table(this.stringGenre);
 
                     // Enviar peticion a axios
                     const config = {
@@ -142,7 +215,8 @@
 
                                 this.results = respuesta.data.results;
                                 // var a = respuesta.data.results;
-                                console.log(respuesta.data.results);
+                                this.total_pages = respuesta.data.total_pages;
+                                console.log(respuesta.data.total_pages);
 
 
 
@@ -180,10 +254,16 @@
                             .then(respuesta => {
 
                                 this.results = respuesta.data.results;
+                                this.total_pages = respuesta.data.total_pages;
+                                this.pages();
                                 // var a = respuesta.data.results;
                                 // console.log(respuesta.data.results);
 
 
+
+                                // console.log(Array.from({
+                                //     length: this.total_pages,
+                                // }));
 
                             })
                             .catch(error => console.log(error));
@@ -191,6 +271,7 @@
                         this.results = [];
                         this.selected = "option-1";
                     }
+
                 },
 
             }
