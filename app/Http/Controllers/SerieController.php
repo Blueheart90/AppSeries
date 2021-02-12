@@ -98,9 +98,10 @@ class SerieController extends Controller
      * @param  \App\Models\Serie  $serie
      * @return \Illuminate\Http\Response
      */
-    public function show(Serie $serie)
+    public function show($serie, $slug = null)
     {
         //
+        return 'desde controller.show: ' . $serie . ' Slug: ' . $slug;
     }
 
     /**

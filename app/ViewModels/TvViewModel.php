@@ -4,6 +4,7 @@ namespace App\ViewModels;
 
 use Carbon\Carbon;
 use Spatie\ViewModels\ViewModel;
+use Illuminate\Support\Str;
 
 class TvViewModel extends ViewModel
 {
@@ -60,8 +61,9 @@ class TvViewModel extends ViewModel
                 'first_air_date' => Carbon::parse($tvshow['first_air_date'])->format('M d, Y'),
                 'year' => Carbon::parse($tvshow['first_air_date'])->format('Y'),
                 'genres' => $genresFormatted,
+                'slug' => Str::of($tvshow['name'])->slug('-'),
             ])->only([
-                'poster_path', 'id', 'genre_ids', 'name', 'vote_average', 'overview', 'first_air_date','year', 'genres',
+                'poster_path', 'id', 'genre_ids', 'name', 'vote_average', 'overview', 'first_air_date','year', 'genres', 'slug',
             ]);
         });
     }

@@ -5,7 +5,7 @@
             <template x-for="[id, value] in Object.entries(results)" :key="id">
                 <div>
                     <div class="relative ">
-                        <a  href="">
+                        <a  x-bind:href="route(value.id, value.name)">
 
                             <img src="{{ Storage::url('sin-poster.png') }}" x-show="!value.poster_path" alt="poster" class="transition duration-150 ease-in-out hover:opacity-75">
                             <img x-bind:src="'https://www.themoviedb.org/t/p/w440_and_h660_face/' + value.poster_path" x-show="value.poster_path" alt="poster" class="transition duration-150 ease-in-out hover:opacity-75">
@@ -14,7 +14,7 @@
 
                     </div>
                     <div class="mt-2">
-                        <a href="" class="mt-2 text-lg hover:text-gray-300" x-text="value.name"></a>
+                        <a x-bind:href="route(value.id, value.name)" class="mt-2 text-lg hover:text-gray-300" x-text="value.name"></a>
                     </div>
                 </div>
             </template>

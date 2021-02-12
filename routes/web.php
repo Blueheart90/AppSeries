@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     // Rutas de Series
     Route::get('/series',[SerieController::class, 'index'])->name('series');
+    Route::get('/series/{serie}/{slug?}', [SerieController::class, 'show'])->name('serie.show');
     Route::post('/series/buscar',[SerieController::class, 'search'])->name('search');
     // Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create');
     // Route::post('/vacantes', 'VacanteController@store')->name('vacantes.store');

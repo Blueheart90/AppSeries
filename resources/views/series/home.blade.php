@@ -72,6 +72,8 @@
                             </x-widget-side>
                         </div>
                     </div>
+                    <a href="{{ route('serie.show', ['serie' => 5050, 'slug' => 'breakin-bad']) }}">Pulse Aqui</a>
+
                 </x-contenido>
             </div>
         </div>
@@ -250,6 +252,31 @@
                     this.selectedGenre = [];
                     this.searchValue = '';
                 },
+                string_to_slug: function (str) {
+                    str = str.replace(/^\s+|\s+$/g, ''); // trim
+                    str = str.toLowerCase();
+
+                    // remove accents, swap ñ for n, etc
+                    var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                    var to   = "aaaaeeeeiiiioooouuuunc------";
+                    for (var i=0, l=from.length ; i<l ; i++) {
+                        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                    }
+
+                    str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+                        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+                        .replace(/-+/g, '-'); // collapse dashes
+
+                    return str;
+                },
+                route: function(id, slug) {
+
+                    var link = id.toString().concat('/', this.string_to_slug(slug));
+                    var url = "{{ route('serie.show', ['serie' => 'id', 'slug' => 'slug']) }}";
+                    url = url.replace('id/slug', link);
+                    return url;
+
+                }
             }
         }
     </script>
