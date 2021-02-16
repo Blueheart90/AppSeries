@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use App\ViewModels\TvViewModel;
+use App\ViewModels\TvShowViewModel;
 use Illuminate\Support\Facades\Http;
 
 class SerieController extends Controller
@@ -98,10 +99,22 @@ class SerieController extends Controller
      * @param  \App\Models\Serie  $serie
      * @return \Illuminate\Http\Response
      */
-    public function show($serie, $slug = null)
+    public function show($serie)
     {
-        //
-        return 'desde controller.show: ' . $serie . ' Slug: ' . $slug;
+        // Querys
+        $language = 'es-mx';
+        $imageLanguage = 'en,es,null';
+        $appendResponse = 'credits,videos,images';
+
+        // Series tentencia
+        $tvShowDetails = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/tv/' . $serie, ['language' => $language,'append_to_response' => $appendResponse, 'include_image_language' => $imageLanguage])
+            ->json();
+
+        $viewModel = new TvShowViewModel(
+            $tvShowDetails
+        );
+        return view('series.show', $viewModel);
     }
 
     /**

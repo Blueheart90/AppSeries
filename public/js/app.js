@@ -34095,47 +34095,50 @@ __webpack_require__.r(__webpack_exports__);
 // import Swiper JS and modules
  // configure Swiper to use modules
 
-swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_0__["Navigation"], swiper__WEBPACK_IMPORTED_MODULE_0__["Pagination"], swiper__WEBPACK_IMPORTED_MODULE_0__["Autoplay"]]);
-var swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.swiper-container', {
-  slidesPerView: 1,
-  spaceBetween: 15,
-  autoplay: {
-    delay: 2500,
-    disableOnInteraction: false
-  },
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev'
-  },
-  breakpoints: {
-    // when window width is >= 640px
-    640: {
-      slidesPerView: 3,
-      spaceBetween: 15
+swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_0__["Navigation"], swiper__WEBPACK_IMPORTED_MODULE_0__["Pagination"], swiper__WEBPACK_IMPORTED_MODULE_0__["Autoplay"]]); // Solo se ejecutara si en el documento existe un elemento con la etiqueta/clase 'swiper-container'
+
+if (document.querySelector('.swiper-container')) {
+  var swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.swiper-container', {
+    slidesPerView: 1,
+    spaceBetween: 15,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false
     },
-    // when window width is >= 868px
-    868: {
-      slidesPerView: 4,
-      spaceBetween: 15
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
     },
-    // when window width is >= 1024px
-    1024: {
-      slidesPerView: 6,
-      spaceBetween: 15
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    breakpoints: {
+      // when window width is >= 640px
+      640: {
+        slidesPerView: 3,
+        spaceBetween: 15
+      },
+      // when window width is >= 868px
+      868: {
+        slidesPerView: 4,
+        spaceBetween: 15
+      },
+      // when window width is >= 1024px
+      1024: {
+        slidesPerView: 6,
+        spaceBetween: 15
+      }
     }
-  }
-});
-var el = document.querySelector(".swiper-container");
-el.addEventListener('mouseover', function () {
-  swiper.autoplay.stop();
-});
-el.addEventListener('mouseout', function () {
-  swiper.autoplay.start();
-});
+  });
+  var el = document.querySelector(".swiper-container");
+  el.addEventListener('mouseover', function () {
+    swiper.autoplay.stop();
+  });
+  el.addEventListener('mouseout', function () {
+    swiper.autoplay.start();
+  });
+}
 
 /***/ }),
 
