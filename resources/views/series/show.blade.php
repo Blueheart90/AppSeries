@@ -16,12 +16,12 @@
     @dump($tvshow['stringEpCount'])
 
 
-    <div class="py-12" x-data="main()">
+    <div class="py-12" x-data="main()" x-init="init">
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                 <div class="bg-white ">
                     <div
-                        class="bg-no-repeat bg-cover "
+                        class="bg-no-repeat "
                         style="background-image: linear-gradient(90deg, rgba(35,36,51,0.711922268907563) 53%, rgba(59, 130, 246,0.76234243697479) 100%), url('{{ $tvshow["random_bg"] }}')">
                         <div class="grid grid-cols-4 gap-8 p-10 text-white">
                             <div>
@@ -57,8 +57,8 @@
                                 >
                                     <div class="flex mb-2">
                                         <x-jet-label class="pr-2 text-white">Estado</x-jet-label>
-                                        <select class="rounded-sm " name="state" id="state">
-                                            <option disabled selected>Seleccione Estado</option>
+                                        <select class="rounded-sm " x-model="state" name="state" id="state">
+                                            <option disabled selected value="0">Seleccione Estado</option>
                                             <option value="1">Viendo</option>
                                             <option value="2">Completa</option>
                                             <option value="3">En Espera</option>
@@ -73,6 +73,7 @@
                                             name="season"
                                             id="season"
                                             x-model="season"
+
                                         >
                                             @foreach ($tvshow['seasons'] as $key => $value)
                                                 @if ($key != 0)
@@ -85,7 +86,7 @@
                                     </div>
                                     <div class="flex mb-2">
                                         <x-jet-label class="pr-2 text-white">Cap. Vistos</x-jet-label>
-                                        <input class="w-10 px-2 rounded-sm" >
+                                        <input type="number" min="0" x-model="episode" :max="getCountEp(season - 1)" class="w-12 pl-2 pr-1 rounded-sm " >
                                         <span class="pl-2 ">/</span>
                                         <span class="pl-2 " x-text="getCountEp(season - 1)"></span>
                                     </div>
@@ -169,13 +170,26 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/circles/0.0.6/circles.min.js" integrity="sha512-r1w3tnPCKov9Spj2bJGCQQBJ5wcJywFgL79lKMXvzBMXIPFI9xXQDmwuVs+ERh1tnL0UFT1hLrwtKh1z5/XCCQ==" crossorigin="anonymous"></script>
         <script>
             var circles;
+            // var colors[];
             const score = document.querySelector('#score').value;
+
+            if (score > 74) {
+                // Verde
+                var colors = ['#A7F3D0','#10b981'];
+            }else if(score > 51){
+                // Amarillo
+                var colors = ['#FDE68A','#D97706'];
+            }else{
+                // Rojo
+                var colors = ['#FECACA','#DC2626'];
+            }
+
             circles = Circles.create({
                 id:         'circles-1',
                 value:      score,
                 radius:     25,
                 width:      4,
-                colors:     ['rgba(167, 243, 208, 1)', '#10b981']
+                colors:     colors
             });
 
             function main(){
@@ -184,6 +198,24 @@
                     arrayEp: [],
                     open: false,
                     season: 1,
+                    episode: '',
+                    state: '0',
+                    init() {
+                        this.$watch('season', value => {
+                            this.episode = 0;
+                        });
+                        this.$watch('state', value => {
+                            if (value == '2') {
+                                this.season = this.arrayEp.length;
+                                this.episode = this.getCountEp(this.season - 1);
+                            } else {
+                                console.log(value);
+                            }
+
+                        });
+
+
+                    },
                     stringToArray: function(string) {
                         this.arrayEp = string.split(',')
                     },
@@ -192,10 +224,8 @@
                         return this.arrayEp[s];
                     },
                     prueba: function() {
-                        this.stringToArray(this.stringEp);
+                        console.log(this.season);
                     },
-
-
                 }
             }
 

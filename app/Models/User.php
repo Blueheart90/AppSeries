@@ -58,8 +58,9 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function series()
+    // Un usuario tiene muchas series agregadas a TvList
+    public function tvlists()
     {
-        return $this->hasMany('App\Models\Serie');
+        return $this->hasMany(TvList::class);
     }
 }
