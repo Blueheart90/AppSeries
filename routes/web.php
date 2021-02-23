@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SerieController;
+use App\Http\Controllers\TvListController;
+use App\Models\TvList;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,10 +38,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::get('/series',[SerieController::class, 'index'])->name('series');
     Route::get('/series/{serie}/{slug?}', [SerieController::class, 'show'])->name('serie.show');
     Route::post('/series/buscar',[SerieController::class, 'search'])->name('search');
-    // Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create');
-    // Route::post('/vacantes', 'VacanteController@store')->name('vacantes.store');
-    // Route::delete('/vacantes/{vacante}', 'VacanteController@destroy')->name('vacantes.destroy');
-    // Route::get('/vacantes/{vacante}/edit', 'VacanteController@edit')->name('vacantes.edit');
-    // Route::put('/vacantes/{vacante}', 'VacanteController@update')->name('vacantes.update');
+
+    // Rutas TvList
+    Route::post('/tvlist',[TvListController::class, 'store'])->name('tvlist.store');
+    Route::get('/tvlist/{id}',[TvListController::class, 'checkUser'])->name('tvlist.checkuser');
+    Route::put('/tvlist/{tvlist}',[TvListController::class, 'update'])->name('tvlist.update');
+
+
 
 });

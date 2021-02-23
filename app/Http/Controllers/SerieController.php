@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Score;
 use App\Models\Serie;
+use App\Models\TvList;
+use App\Models\WatchingState;
 use Illuminate\Http\Request;
 use App\ViewModels\TvViewModel;
 use App\ViewModels\TvShowViewModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class SerieController extends Controller
@@ -111,9 +115,26 @@ class SerieController extends Controller
             ->get('https://api.themoviedb.org/3/tv/' . $serie, ['language' => $language,'append_to_response' => $appendResponse, 'include_image_language' => $imageLanguage])
             ->json();
 
+        // ** Se comprueba si el user ya agregó la serie
+        // $tvCheck = TvList::where([['api_id', $serie],['user_id', Auth::id()]])->exists();
+
+        // ** Se obtiene el registro de la serie agregada por el User
+        $tvCheck = TvList::where([['api_id', $serie],['user_id', Auth::id()]])->first();
+
+        // ** Se obtiene los estados. ej viendo, en plan para ver , etc..
+        $stateWatchingList = WatchingState::all(['id','name']);
+
+        // ** Se obtiene la escala de puntaje 1 a 10
+        $scoreList = Score::all(['id','name']);
+
         $viewModel = new TvShowViewModel(
-            $tvShowDetails
+            $tvShowDetails,
+            $tvCheck,
+            $stateWatchingList,
+            $scoreList
         );
+
+
         return view('series.show', $viewModel);
     }
 

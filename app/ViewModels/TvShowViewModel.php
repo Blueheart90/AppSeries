@@ -3,17 +3,37 @@
 namespace App\ViewModels;
 
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
 use Spatie\ViewModels\ViewModel;
 
 class TvShowViewModel extends ViewModel
 {
     public $tvshow;
+    public $tvCheck;
+    public $stateWatchingList;
+    public $scoreList;
+    public $editMode;
 
-    public function __construct($tvshow)
+    public function __construct($tvshow, $tvCheck, $stateWatchingList, $scoreList)
     {
         $this->tvshow = $tvshow;
+        $this->tvCheck = $tvCheck;
+        $this->stateWatchingList = $stateWatchingList;
+        $this->scoreList = $scoreList;
+        $this->editMode = isset($this->tvCheck) ? true : false;
     }
+
+    // Si devuelve la serie creada por el User actual, si está en la DB
+    public function tvCheck()
+    {
+        return $this->tvCheck;
+    }
+
+    public function editMode()
+    {
+        return $this->editMode;
+    }
+
+
 
     public function tvshow()
     {

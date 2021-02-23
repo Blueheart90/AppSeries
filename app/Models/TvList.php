@@ -9,6 +9,10 @@ class TvList extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 'api_id', 'poster', 'season', 'episode', 'score_id', 'watching_state_id', 'user_id'
+    ];
+
     // Una serie agregada a la tabla TvList pertenece a un User
     public function user()
     {
