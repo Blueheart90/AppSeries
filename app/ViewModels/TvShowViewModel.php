@@ -3,7 +3,10 @@
 namespace App\ViewModels;
 
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Spatie\ViewModels\ViewModel;
+use Illuminate\Support\Facades\Http;
 
 class TvShowViewModel extends ViewModel
 {
@@ -33,7 +36,32 @@ class TvShowViewModel extends ViewModel
         return $this->editMode;
     }
 
+    public function api_flags()
+    {
+        // return Http::get('https://flagcdn.com/en/codes.json')
+        // ->json()[$nameCode];
 
+        return Http::get('https://restcountries.eu/rest/v2/alpha/' . "co")
+        ->collect();
+    }
+    public function info()
+    {
+        return collect([
+            'Primera Emision' => $this->tvshow['first_air_date'],
+            'Pagina Web' => $this->tvshow['homepage'],
+            'En produccion' => $this->tvshow['in_production'],
+            'Estado' => $this->tvshow['status'],
+            'Ultimo Capitulo' => $this->tvshow['last_episode_to_air']['air_date'],
+            'Siguiente Capitulo' => $this->tvshow['next_episode_to_air']
+                ? $this->tvshow['next_episode_to_air']['air_date']
+                : null,
+            'Compañia' => collect($this->tvshow['networks'])->pluck('name')->implode(', '),
+            'Capitulos' => $this->tvshow['number_of_episodes'],
+            'Temporadas' => $this->tvshow['number_of_seasons'],
+            'Pais' => $this->api_flags( Str::lower($this->tvshow['origin_country'][0]) ),
+            'Lenguaje Original' => $this->tvshow['original_language'],
+        ]);
+    }
 
     public function tvshow()
     {

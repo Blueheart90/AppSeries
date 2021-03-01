@@ -12,19 +12,14 @@
             {{ $tvshow['name'] }}
         </h2>
     </x-slot>
-    @dump($tvshow['id'])
-    @dump($tvshow['stringEpCount'])
-
-
-
-
-
+    @dump($info)
+    @dump($api_flags)
     <div class="py-12" x-data="main()" x-init="init">
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                 <div class="bg-white ">
                     <div
-                        class="bg-no-repeat "
+                        class="bg-no-repeat bg-cover "
                         style="background-image: linear-gradient(90deg, rgba(35,36,51,0.711922268907563) 53%, rgba(59, 130, 246,0.76234243697479) 100%), url('{{ $tvshow["random_bg"] }}')">
                         <div class="grid grid-cols-4 gap-8 p-10 text-white">
                             <div>
@@ -86,12 +81,45 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-10">
+                    <div class="grid grid-cols-4 p-10">
+                        <div>
+                            <div class="">
+                                <h2>Información Adicional</h2>
+                                <div>
+                                    <span class="font-bold">Primera emision: </span>
+                                    01-27-1900
+                                </div>
+                                <div>
+                                    <span class="font-bold">Pagina Web: </span>
+                                    01-27-1900
+                                </div>
+                                <div>
+                                    <span class="font-bold">Estado: </span>
+                                    En production | Terminada
+                                </div>
+                                <div>
+                                    <span class="font-bold">Ultimo Capitulo: </span>
+                                    01-27-1990
+                                </div>
+                                <div>
+                                    <span class="font-bold">Siguiente Capitulo: </span>
+                                    01-27-1990
+                                </div>
+                                <div>
+                                    <span class="font-bold">Compañia: </span>
+                                    HBO
+                                </div>
+                                <div>
+                                    <span class="font-bold">Temporadas: </span>
+                                    10
+                                </div>
+                                <div>
+                                    <span class="font-bold">Capitulos: </span>
+                                    10
+                                </div>
+                            </div>
+                        </div>
 
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat voluptates voluptatum exercitationem corporis adipisci a. Atque consequatur optio nobis? Reprehenderit quos magni ducimus a eum quibusdam voluptatum earum doloribus nihil.
-                        Earum, ratione! Quam, reprehenderit, ipsam quia, officiis magnam itaque dolorem rem vero dolorum optio facere. Voluptatum ex sit dolor voluptate iste accusantium explicabo sint, fugiat earum aspernatur perferendis sed omnis?
-                        Error magni quod veniam corporis reiciendis impedit minus in. Quos alias esse magnam ipsa. Perspiciatis alias porro tenetur necessitatibus officia exercitationem, laboriosam repellat dolorum sit hic excepturi aperiam unde? Voluptatum.
-                        Ex cupiditate ullam quos est itaque provident tempora, similique mollitia officia dicta cum iure, explicabo quasi corporis nulla neque dolorem, vero illum sequi ut quas? Dicta explicabo deserunt ipsum unde.</p>
                     </div>
                 </div>
             </div>

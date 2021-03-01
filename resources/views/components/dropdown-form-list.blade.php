@@ -117,7 +117,7 @@
             <span x-text="editMode ? 'Actualizar' : 'Añadir'"></span>
         </x-jet-button>
 
-        <x-jet-button
+        {{-- <x-jet-button
             color="gray"
             class="min-w-full mb-2"
             @click="debug()"
@@ -126,7 +126,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>Debug</span>
-        </x-jet-button>
+        </x-jet-button> --}}
         <template x-if="Object.keys(errors).length">
             <div class="min-w-full p-2 mb-2 text-sm text-red-500 bg-red-100 border border-red-500 rounded-md " >
                 Hay campos sin llenar
@@ -179,7 +179,6 @@
                     axios
                         .post('/tvlist', this.fields)
                         .then(respuesta => {
-                            console.log(respuesta.data);
                             this.success = true;
                             this.errors = {};
                             this.open =false;
@@ -199,13 +198,11 @@
                     axios
                         .put('/tvlist/' + this.oldFields.id, this.fields )
                         .then(respuesta => {
-                            console.log(respuesta.data);
                             this.open = false;
                             this.success =true;
                         })
                         .catch(error => console.log(error));
 
-                    console.log(this.apiId);
                 },
                 oldData: function(){
                     axios
@@ -224,7 +221,6 @@
                                         this.fields[property] = this.oldFields[property]
                                     }
                                 }
-                                console.log(this.fields);
                             }
                         })
                         .catch(error => console.log(error));
