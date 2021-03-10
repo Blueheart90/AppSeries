@@ -13,7 +13,6 @@
         </h2>
     </x-slot>
     @dump($info)
-    @dump($api_flags)
     <div class="py-12" x-data="main()" x-init="init">
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
@@ -83,40 +82,18 @@
                     </div>
                     <div class="grid grid-cols-4 p-10">
                         <div>
-                            <div class="">
+                            <div>
                                 <h2>Información Adicional</h2>
-                                <div>
-                                    <span class="font-bold">Primera emision: </span>
-                                    01-27-1900
-                                </div>
-                                <div>
-                                    <span class="font-bold">Pagina Web: </span>
-                                    01-27-1900
-                                </div>
-                                <div>
-                                    <span class="font-bold">Estado: </span>
-                                    En production | Terminada
-                                </div>
-                                <div>
-                                    <span class="font-bold">Ultimo Capitulo: </span>
-                                    01-27-1990
-                                </div>
-                                <div>
-                                    <span class="font-bold">Siguiente Capitulo: </span>
-                                    01-27-1990
-                                </div>
-                                <div>
-                                    <span class="font-bold">Compañia: </span>
-                                    HBO
-                                </div>
-                                <div>
-                                    <span class="font-bold">Temporadas: </span>
-                                    10
-                                </div>
-                                <div>
-                                    <span class="font-bold">Capitulos: </span>
-                                    10
-                                </div>
+                                @foreach ($info as $key => $value)
+                                    <div class="mb-2 ">
+                                        <span class="block font-bold">{{$key}}</span>
+                                        <span class="capitalize">
+
+                                            {!!__($value)!!}
+                                        </span>
+                                    </div>
+                                @endforeach
+
                             </div>
                         </div>
 
@@ -135,7 +112,7 @@
                 var colors = ['#A7F3D0','#10b981'];
             }else if(score > 51){
                 // Amarillo
-                var colors = ['#FDE68A','#D97706'];
+                var colors = ['#D97706','#FDE68A'];
             }else{
                 // Rojo
                 var colors = ['#FECACA','#DC2626'];

@@ -36,30 +36,41 @@ class TvShowViewModel extends ViewModel
         return $this->editMode;
     }
 
-    public function api_flags()
+    public function api_flags($codeNameCountry)
     {
         // return Http::get('https://flagcdn.com/en/codes.json')
         // ->json()[$nameCode];
 
-        return Http::get('https://restcountries.eu/rest/v2/alpha/' . "co")
-        ->collect();
+        $response = Http::get('https://restcountries.eu/rest/v2/alpha/' . $codeNameCountry)
+        ->json();
+
+        return collect($response)->merge([
+            'language' => $response['languages'][0]['name']
+        ])->only(['name', 'language', 'flag']);
+
     }
     public function info()
     {
+        $countryInfo = $this->api_flags( Str::lower($this->tvshow['origin_country'][0]));
+
         return collect([
-            'Primera Emision' => $this->tvshow['first_air_date'],
-            'Pagina Web' => $this->tvshow['homepage'],
-            'En produccion' => $this->tvshow['in_production'],
+            'Primera Emision' => Carbon::parse($this->tvshow['first_air_date'])->isoFormat('MMMM D, YYYY'),
+            'Pagina Web' => '<a class=" hover:text-blue-800 hover:font-bold" href="' . $this->tvshow['homepage'] . '">Sitio Oficial</a>' ,
             'Estado' => $this->tvshow['status'],
-            'Ultimo Capitulo' => $this->tvshow['last_episode_to_air']['air_date'],
+            'Ultimo Capitulo' => $this->tvshow['last_episode_to_air']
+                ? Carbon::parse($this->tvshow['last_episode_to_air']['air_date'])->isoFormat('MMMM D, YYYY')
+                : 'No Disponible',
             'Siguiente Capitulo' => $this->tvshow['next_episode_to_air']
-                ? $this->tvshow['next_episode_to_air']['air_date']
-                : null,
-            'Compañia' => collect($this->tvshow['networks'])->pluck('name')->implode(', '),
-            'Capitulos' => $this->tvshow['number_of_episodes'],
+                ? Carbon::parse($this->tvshow['next_episode_to_air']['air_date'])->isoFormat('MMMM D, YYYY')
+                : 'No Disponible',
             'Temporadas' => $this->tvshow['number_of_seasons'],
-            'Pais' => $this->api_flags( Str::lower($this->tvshow['origin_country'][0]) ),
-            'Lenguaje Original' => $this->tvshow['original_language'],
+            'Capitulos' => $this->tvshow['number_of_episodes'],
+            'Compañia' => collect($this->tvshow['networks'])->pluck('name')->implode(', '),
+            'Pais De Origen' => '<img class="inline w-10 cursor-pointer " src="' . $countryInfo['flag'] .'" title="' . $countryInfo['name'] . '">' ,
+            'Lenguaje Original' => $countryInfo['language'],
+            // 'En produccion' => $this->tvshow['in_production']
+            //     ? 'Si'
+            //     : 'No',
         ]);
     }
 
