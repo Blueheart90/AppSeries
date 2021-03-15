@@ -83,7 +83,7 @@ class TvShowViewModel extends ViewModel
             'vote_average' => $this->tvshow['vote_average'] * 10,
             'first_air_date' => Carbon::parse($this->tvshow['first_air_date'])->format('M d, Y'),
             'genres' => collect($this->tvshow['genres'])->pluck('name')->flatten()->implode(', '),
-            'cast' => collect($this->tvshow['credits']['cast'])->take(5)->map(function($cast) {
+            'cast' => collect($this->tvshow['credits']['cast'])->take(10)->map(function($cast) {
                 return collect($cast)->merge([
                     'profile_path' => $cast['profile_path']
                         ? 'https://image.tmdb.org/t/p/w300'.$cast['profile_path']
@@ -91,6 +91,13 @@ class TvShowViewModel extends ViewModel
                 ]);
             }),
             'images' => collect($this->tvshow['images']['backdrops'])->take(9),
+            'videos' => collect($this->tvshow['videos']['results'])->take(2)->map(function($video) {
+                return collect($video)->merge([
+                    'url' => $video['site'] === 'YouTube'
+                        ? 'https://www.youtube.com/watch?v=' . $video['key']
+                        : $video['key'],
+                ]);
+            }),
             'random_bg' => $this->tvshow['images']['backdrops']
                 ? 'http://image.tmdb.org/t/p/w1280' . collect($this->tvshow['images']['backdrops'])->random()['file_path']
                 : '',
