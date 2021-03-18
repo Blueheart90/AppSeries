@@ -106,7 +106,7 @@ class SerieController extends Controller
     public function show($serie)
     {
         // Querys
-        $language = 'es-mx';
+        $language = 'en-US';
         $imageLanguage = 'en,es,null';
         $appendResponse = 'credits,videos,images';
 

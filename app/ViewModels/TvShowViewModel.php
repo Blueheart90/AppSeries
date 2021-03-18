@@ -91,6 +91,13 @@ class TvShowViewModel extends ViewModel
                 ]);
             }),
             'images' => collect($this->tvshow['images']['backdrops'])->take(9),
+            'backdrops' => collect($this->tvshow['images']['backdrops'])->take(5)->map(function($bd) {
+                return collect($bd)->merge([
+                    'thumbnail' => 'https://image.tmdb.org/t/p/w300/' . $bd['file_path'],
+                    'w780' => 'https://image.tmdb.org/t/p/w780/' . $bd['file_path'],
+                    'w1280' => 'https://image.tmdb.org/t/p/w1280/' . $bd['file_path'],
+                ]);
+            }),
             'videos' => collect($this->tvshow['videos']['results'])->take(2)->map(function($video) {
                 return collect($video)->merge([
                     'url' => $video['site'] === 'YouTube'
@@ -115,7 +122,7 @@ class TvShowViewModel extends ViewModel
 
         ])->only([
             'poster_path', 'id', 'genres', 'name', 'vote_average', 'overview', 'first_air_date', 'credits' ,
-            'videos', 'images', 'crew', 'cast', 'images', 'random_bg', 'created_by', 'tagline', 'year', 'seasons', 'stringEpCount'
+            'videos', 'images', 'backdrops', 'crew', 'cast', 'images', 'random_bg', 'created_by', 'tagline', 'year', 'seasons', 'stringEpCount'
         ]);
     }
 }

@@ -7,12 +7,13 @@
             background-color: black;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.css" integrity="sha512-B+BE8OTmZEKa6ZRDnr0D14iAf88WGckI2ph0s8b+KXCKJc/sotEMEwOlpCuhCU9rAGox1g4i4vEsCpd0fzza9g==" crossorigin="anonymous" />
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ $tvshow['name'] }}
         </h2>
     </x-slot>
-    {{-- @dump($tvshow) --}}
+    @dump($tvshow)
     <div class="py-12" x-data="main()" x-init="init">
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
@@ -100,7 +101,7 @@
                             </div>
                         </div>
                         <div class="col-span-3">
-                            <h2 class="mb-4 text-lg ">Actores</h2>
+                            <h2 class="mb-4 text-lg font-bold ">Actores</h2>
                             <x-swiper>
                                 @foreach ($tvshow['cast'] as $actor)
                                     <div class="swiper-slide">
@@ -110,79 +111,45 @@
                                         <div class="mt-2">
                                             <a href="" class="block mt-2 text-lg hover:text-gray-300">{{ $actor['name'] }}</a>
                                             <a href="" class="mt-2 text-base text-gray-600">{{ $actor['character'] }}</a>
-
                                         </div>
                                     </div>
+                                @endforeach
+                            </x-swiper>
+
+                            </div>
+                            <h2 class="mb-4 text-lg font-bold ">Videos</h2>
+                            <div class="flex space-x-4 videoGallery">
+                                @foreach ($tvshow['videos'] as $key => $video)
+                                    <a class="lightBoxVideoLink" href="https://www.youtube.com/embed/{{$video['key']}}?autoplay=true">
+                                        <img
+                                            data-src="{{ 'http://i3.ytimg.com/vi/' . $video['key'] . '/hqdefault.jpg' }}"
+                                            alt="video"
+                                            class="transition duration-150 ease-in-out w-60 lazyload hover:opacity-75"
+                                        >
+                                    </a>
+                                @endforeach
+                            </div>
+                            <h2 class="mb-4 text-lg font-bold ">Imagenes</h2>
+                            <div class="flex space-x-4 imageGallery">
+                                @foreach ($tvshow['backdrops'] as $bd)
+                                    <a href="{{$bd['w1280']}}" title="Caption for gallery item 1"><img src="{{$bd['thumbnail']}}" alt="Gallery image 1" /></a>
 
                                 @endforeach
+                            </div>
+                            <div>
 
-                            </x-swiper>
-                            <h2 class="mb-4 text-lg ">Videos</h2>
-                            <div
-                                x-data="{
-                                    showModal: false,
-                                    urlYt: '',
-                                    modal: function(e){
-                                        this.showModal = true;
-                                        this.urlYt = 'https://www.youtube.com/embed/' + e + '?autoplay=1';
-                                    }
-                                }"
-                            >
-                                <div class="flex space-x-4">
-
-                                    @foreach ($tvshow['videos'] as $key => $video)
-                                        <a
-                                            href=""
-                                            @click.prevent="modal('{{$video["key"]}}')"
-                                        >
-                                            <img
-                                                data-src="{{ 'http://i3.ytimg.com/vi/' . $video['key'] . '/hqdefault.jpg' }}"
-                                                alt="video"
-                                                class="transition duration-150 ease-in-out w-60 lazyload hover:opacity-75"
-                                            >
-                                        </a>
-
-                                    @endforeach
-                                </div>
-                                    <template x-if="showModal">
-                                        <div
-                                            class="fixed inset-0 z-20 w-full h-full overflow-y-auto duration-300 bg-black bg-opacity-50"
-
-                                            x-transition:enter="transition duration-300"
-                                            x-transition:enter-start="opacity-0"
-                                            x-transition:enter-end="opacity-100"
-                                            x-transition:leave="transition duration-300"
-                                            x-transition:leave-start="opacity-100"
-                                            x-transition:leave-end="opacity-0"
-                                            >
-                                            <div class="relative mx-2 my-10 opacity-100 sm:w-3/4 md:w-1/2 lg:w-1/3 sm:mx-auto">
-                                                <div
-                                                class="relative z-20 bg-white rounded-md shadow-lg w-max-content"
-                                                @click.away="showModal = false"
-                                                x-show="showModal"
-                                                x-transition:enter="transition transform duration-300"
-                                                x-transition:enter-start="scale-0"
-                                                x-transition:enter-end="scale-100"
-                                                x-transition:leave="transition transform duration-300"
-                                                x-transition:leave-start="scale-100"
-                                                x-transition:leave-end="scale-0"
-                                                >
-                                                <iframe :src="urlYt" allowFullScreen="allowFullScreen" width="800" height="450" frameborder="0"></iframe>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </template>
-                          </div>
-
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/circles/0.0.6/circles.min.js" integrity="sha512-r1w3tnPCKov9Spj2bJGCQQBJ5wcJywFgL79lKMXvzBMXIPFI9xXQDmwuVs+ERh1tnL0UFT1hLrwtKh1z5/XCCQ==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js" integrity="sha512-OYtVuAy6KSuCAf0HG9j12VF96ehWm00yWBkYAqwzOkGV4WLPCWlOY1q1C3Mr4ouohyL5vEPqTulTyDlT7AHoGQ==" crossorigin="anonymous"></script>
         <script>
+            var lightboxImg = new SimpleLightbox({elements: '.imageGallery a'});
+            var lightboxVideo = new SimpleLightbox({elements: '.videoGallery a'});
+            $('.lightBoxVideoLink').lightboxVideo();
             var circles;
             // var colors[];
             const score = document.querySelector('#score').value;
