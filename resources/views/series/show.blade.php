@@ -115,8 +115,6 @@
                                     </div>
                                 @endforeach
                             </x-swiper>
-
-                            </div>
                             <h2 class="mb-4 text-lg font-bold ">Videos</h2>
                             <div class="flex space-x-4 videoGallery">
                                 @foreach ($tvshow['videos'] as $key => $video)
