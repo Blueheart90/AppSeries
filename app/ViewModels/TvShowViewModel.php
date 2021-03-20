@@ -96,9 +96,11 @@ class TvShowViewModel extends ViewModel
                     'thumbnail' => 'https://image.tmdb.org/t/p/w300/' . $bd['file_path'],
                     'w780' => 'https://image.tmdb.org/t/p/w780/' . $bd['file_path'],
                     'w1280' => 'https://image.tmdb.org/t/p/w1280/' . $bd['file_path'],
+                    'original' => 'https://image.tmdb.org/t/p/original/' . $bd['file_path'],
+                    'caption' => 'Resolution: ' . $bd['width'] . 'x' . $bd['height'],
                 ]);
             }),
-            'videos' => collect($this->tvshow['videos']['results'])->take(2)->map(function($video) {
+            'videos' => collect($this->tvshow['videos']['results'])->take(5)->map(function($video) {
                 return collect($video)->merge([
                     'url' => $video['site'] === 'YouTube'
                         ? 'https://www.youtube.com/watch?v=' . $video['key']

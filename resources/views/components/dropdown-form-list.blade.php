@@ -25,7 +25,7 @@
         </svg>
     </div>
     <form
-        class="flex flex-wrap p-4 text-sm text-gray-700 bg-gray-200 bg-opacity-75 rounded-b-md "
+        class="p-4 text-sm text-gray-700 bg-gray-200 bg-opacity-75 rounded-b-md"
         x-show="open"
         x-on:submit.prevent
         x-transition:enter="transition ease-out duration-300"
@@ -84,7 +84,7 @@
             <span class="pl-2 " x-text="getCountEp(fields.season - 1)"></span>
         </div>
         <div class="flex mb-4">
-            <x-jet-label class="pr-2 text-white">Puntuación</x-jet-label>
+            <x-jet-label class="pr-2 text-white">Punt.</x-jet-label>
             <select
                 class="rounded-sm"
                 :class="{' border border-red-600' : errors && errors.score_id}"

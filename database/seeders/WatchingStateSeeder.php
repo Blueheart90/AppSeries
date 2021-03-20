@@ -32,7 +32,7 @@ class WatchingStateSeeder extends Seeder
         ]);
         WatchingState::create([
             'id' => 5,
-            'name' => 'En Plan Para Ver',
+            'name' => 'Planeando Ver',
         ]);
     }
 }
