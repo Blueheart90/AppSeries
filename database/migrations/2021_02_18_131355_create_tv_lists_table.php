@@ -13,6 +13,13 @@ class CreateTvListsTable extends Migration
      */
     public function up()
     {
+        Schema::create('reviews', function (Blueprint $table) {
+            $table->id();
+            $table->text('content');
+            $table->string('api_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
 
         Schema::create('watching_states', function (Blueprint $table) {
             $table->id();
@@ -33,13 +40,15 @@ class CreateTvListsTable extends Migration
             $table->string('poster');
             $table->integer('season');
             $table->integer('episode');
+            $table->foreignId('review_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('watching_state_id')->references('id')->on('watching_states')->onDelete('cascade');
             $table->foreignId('score_id')->references('id')->on('scores')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            // Indica que user_id o api_id deben ser distos a otros registros (un user puede crear solo un registro por api_id)
+            // Indica que user_id o api_id deben ser distintos a otros registros (un user puede crear solo un registro por api_id)
             $table->unique(['user_id', 'api_id']);
         });
+
     }
 
     /**
@@ -50,6 +59,7 @@ class CreateTvListsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('tv_lists');
+        Schema::dropIfExists('reviews');
         Schema::dropIfExists('watching_states');
         Schema::dropIfExists('scores');
     }

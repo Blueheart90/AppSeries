@@ -8,6 +8,7 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.css" integrity="sha512-B+BE8OTmZEKa6ZRDnr0D14iAf88WGckI2ph0s8b+KXCKJc/sotEMEwOlpCuhCU9rAGox1g4i4vEsCpd0fzza9g==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" integrity="sha512-5m1IeUDKtuFGvfgz32VVD0Jd/ySGX7xdLxhqemTmThxHdgqlgPdupWoSN8ThtUSLpAGBvA8DY2oO7jJCrGdxoA==" crossorigin="anonymous" />
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ $tvshow['name'] }}
@@ -24,8 +25,8 @@
                         {{-- <div class="flex flex-col content-center p-10 text-white md:flex-row "> --}}
                         {{-- <div class="grid grid-cols-4 gap-8 p-10 text-white"> --}}
                             <div class="md:col-span-2">
-                                <figure class="flex flex-col">
-                                    <img  src="{{ $tvshow['poster_path'] }}" alt="poster" class="transition duration-150 ease-in-out rounded-sm lazyload hover:opacity-75">
+                                <figure>
+                                    <img  src="{{ $tvshow['poster_path'] }}" alt="poster" class="mx-auto transition duration-150 ease-in-out rounded-sm lazyload hover:opacity-75">
                                     {{-- Desplegable con formulario --}}
                                     <div>
                                         <div
@@ -115,6 +116,14 @@
                                     </div>
                                 @endforeach
                             </x-swiper>
+
+
+
+
+
+                            <livewire:reviews></livewire:reviews>
+
+                            {{-- Tab navbar --}}
                             <div x-data="{ selected: 'videos' }">
                                 <div class="flex flex-col justify-between max-w-full mb-4 sm:flex-row" x-ref="topNav">
                                     @php
@@ -179,10 +188,10 @@
                                         @endforeach
                                     </div>
                                 </div>
-                            </div>
-                            <div>
 
                             </div>
+                            {{--End Tab navbar --}}
+
                         </div>
                     </div>
                 </div>
@@ -190,6 +199,7 @@
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/circles/0.0.6/circles.min.js" integrity="sha512-r1w3tnPCKov9Spj2bJGCQQBJ5wcJywFgL79lKMXvzBMXIPFI9xXQDmwuVs+ERh1tnL0UFT1hLrwtKh1z5/XCCQ==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js" integrity="sha512-OYtVuAy6KSuCAf0HG9j12VF96ehWm00yWBkYAqwzOkGV4WLPCWlOY1q1C3Mr4ouohyL5vEPqTulTyDlT7AHoGQ==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js" integrity="sha512-2RLMQRNr+D47nbLnsbEqtEmgKy67OSCpWJjJM394czt99xj3jJJJBQ43K7lJpfYAYtvekeyzqfZTx2mqoDh7vg==" crossorigin="anonymous"></script>
         <script>
             var lightboxImg = new SimpleLightbox({
                 elements: '.imageGallery a',

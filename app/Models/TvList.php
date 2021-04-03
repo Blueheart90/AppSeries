@@ -10,7 +10,7 @@ class TvList extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'api_id', 'poster', 'season', 'episode', 'score_id', 'watching_state_id', 'user_id'
+        'name', 'api_id', 'poster', 'season', 'episode', 'review_id', 'score_id', 'watching_state_id', 'user_id'
     ];
 
     // Una serie agregada a la tabla TvList pertenece a un User
@@ -23,6 +23,11 @@ class TvList extends Model
     public function watchingstate()
     {
         return $this->belongsTo(WatchingState::class);
+    }
+
+    public function review()
+    {
+        return $this->hasOne(Review::class);
     }
 
 }
