@@ -1,4 +1,5 @@
 <div>
+    @dump($apiId)
     <h2 class="mb-4 text-lg font-bold">{{ __('Reviews') }}</h2>
     <form wire:submit.prevent="submit()">
         <div x-data="{ trix: @entangle('content').defer }">
@@ -11,4 +12,5 @@
         </div>
         <x-jet-button class="mt-2 text-sm capitalize">{{ __('Add') }}</x-jet-button>
     </form>
+    <x-jet-button wire:click="update(1)">Update</x-jet-button>
 </div>

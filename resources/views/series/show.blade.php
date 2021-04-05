@@ -121,7 +121,7 @@
 
 
 
-                            <livewire:reviews></livewire:reviews>
+                            <livewire:reviews :apiId="$tvshow['id']"/>
 
                             {{-- Tab navbar --}}
                             <div x-data="{ selected: 'videos' }">

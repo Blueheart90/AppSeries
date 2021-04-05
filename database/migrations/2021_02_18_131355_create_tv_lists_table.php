@@ -19,6 +19,7 @@ class CreateTvListsTable extends Migration
             $table->string('api_id');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['user_id', 'api_id']);
         });
 
         Schema::create('watching_states', function (Blueprint $table) {
