@@ -13,6 +13,7 @@ class Reviews extends Component
 
     public $content;
     public $apiId;
+    public $recommended = null;
 
 
     protected $rules = [
@@ -43,6 +44,7 @@ class Reviews extends Component
     public function update(Review $review)
     {
         Log::debug($review);
+        $this->recommended = true;
     }
 
     public function render()
