@@ -18,6 +18,7 @@ class Reviews extends Component
 
     protected $rules = [
         'content' => 'required',
+        'recommended' => 'required',
     ];
 
     public function submit()
@@ -30,7 +31,8 @@ class Reviews extends Component
         DB::transaction(function () {
             $query = auth()->user()->reviews()->create([
                 'content' => $this->content,
-                'api_id' => $this->apiId
+                'api_id' => $this->apiId,
+                'recommended' => $this->recommended,
             ]);
 
             $list = TvList::where('api_id', $this->apiId)->where('user_id', $query->user_id);
@@ -44,12 +46,11 @@ class Reviews extends Component
     public function update(Review $review)
     {
         Log::debug($review);
-        $this->recommended = true;
     }
 
     public function render()
     {
-        $allReviews = Review::all();
+        $allReviews = Review::where('api_id', $this->apiId)->get();
         return view('livewire.reviews', compact('allReviews'));
     }
 }

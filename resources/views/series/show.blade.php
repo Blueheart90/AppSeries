@@ -117,12 +117,6 @@
                                 @endforeach
                             </x-swiper>
 
-
-
-
-
-                            <livewire:reviews :apiId="$tvshow['id']"/>
-
                             {{-- Tab navbar --}}
                             <div x-data="{ selected: 'videos' }">
                                 <div class="flex flex-col justify-between max-w-full mb-4 sm:flex-row" x-ref="topNav">
@@ -191,7 +185,7 @@
 
                             </div>
                             {{--End Tab navbar --}}
-
+                            <livewire:reviews :apiId="$tvshow['id']"/>
                         </div>
                     </div>
                 </div>
