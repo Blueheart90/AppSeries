@@ -19,6 +19,7 @@ class CreateTvListsTable extends Migration
             $table->string('api_id');
             $table->boolean('recommended');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('tvlist_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->unique(['user_id', 'api_id']);
         });
@@ -42,7 +43,7 @@ class CreateTvListsTable extends Migration
             $table->string('poster');
             $table->integer('season');
             $table->integer('episode');
-            $table->foreignId('review_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('review_id')->nullable()->references('id')->on('reviews')->onDelete('cascade');
             $table->foreignId('watching_state_id')->references('id')->on('watching_states')->onDelete('cascade');
             $table->foreignId('score_id')->references('id')->on('scores')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

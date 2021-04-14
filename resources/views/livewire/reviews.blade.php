@@ -2,44 +2,54 @@
     trix: @entangle('content').defer,
     recommended: @entangle('recommended')
 }">
-    {{-- @dump($apiId) --}}
+    @dump($allReviews)
     <h2 class="mb-4 text-lg font-bold">{{ __('Reviews') }}</h2>
-    @foreach ($allReviews as $review)
-        <div>
-            <div class="flex w-full">
-                <img class="object-cover w-16 h-16 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                <div class="flex justify-between w-full">
-                    <div>
-                        <p class="mb-2">{{ $review->user->name }}</p>
-                        <div class="flex">
-                            @if ($review->recommended)
-                                <div class="px-2 py-1 rounded-l-xl bg-cool-gray-600">
-                                    <x-like-svg class="text-green-400 " ></x-like-svg>
-                                </div>
-                                <span class="px-2 py-1 text-gray-800 bg-green-400 rounded-r-xl">Recomendado</span>
-                            @else
-                                <div class="px-2 py-1 rounded-l-xl bg-cool-gray-600">
-                                    <x-dislike-svg class="text-red-400 " ></x-dislike-svg>
-                                </div>
-                                <span class="px-2 py-1 text-gray-800 bg-red-400 rounded-r-xl">No Recomendado</span>
-                            @endif
+    @if ($allReviews->isEmpty())
+        <div class="flex justify-center py-8 border border-green-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mr-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-lg leading-loose text-cool-gray-800">
+                No existen reseñas para mostrar. Se el primero en añadir una
+            </span>
+        </div>
+    @else
+        @foreach ($allReviews as $review)
+            <div>
+                <div class="flex w-full">
+                    <img class="object-cover w-16 h-16 mr-4 rounded-full " src="{{ $review->user->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                    <div class="flex justify-between w-full">
+                        <div>
+                            <p class="mb-2">{{ $review->user->name }}</p>
+                            <div class="flex">
+                                @if ($review->recommended)
+                                    <div class="px-2 py-1 rounded-l-xl bg-cool-gray-600">
+                                        <x-like-svg class="text-green-400 " ></x-like-svg>
+                                    </div>
+                                    <span class="px-2 py-1 text-gray-800 bg-green-400 rounded-r-xl">Recomendado</span>
+                                @else
+                                    <div class="px-2 py-1 rounded-l-xl bg-cool-gray-600">
+                                        <x-dislike-svg class="text-red-400 " ></x-dislike-svg>
+                                    </div>
+                                    <span class="px-2 py-1 text-gray-800 bg-red-400 rounded-r-xl">No Recomendado</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="text-right ">
+                            <p>Publicado: {{ $review->created_at->diffForHumans() }}</p>
+                            <p>Temp vistas: {{ $review->tvlist->season }}</p>
+                            <p>Cap vistos: {{ $review->tvlist->episode }}</p>
                         </div>
                     </div>
-                    <div class="text-right ">
-                        <p>Publicado: {{ $review->created_at->diffForHumans() }}</p>
-                        <p>Temp vistas: 2</p>
-                        <p>Cap vistos: 10</p>
-                    </div>
                 </div>
+
+                <p class="mt-4">{!! $review->content !!}</p>
             </div>
-
-            <p class="mt-4">{!! $review->content !!}</p>
-        </div>
-        <hr class="my-4">
-
-    @endforeach
-    <div class="mt-6">
-        <div>
+            <hr class="my-4">
+        @endforeach
+    @endif
+    <div class="mt-12 ">
+        <div class="mb-4 ">
             <img class="float-left object-cover w-20 h-20 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
             <div>
                 <h2 class="text-lg font-bold text-teal-400">Escribe una reseña sobre Path of Exile</h2>

@@ -35,7 +35,10 @@ class Reviews extends Component
                 'recommended' => $this->recommended,
             ]);
 
-            $list = TvList::where('api_id', $this->apiId)->where('user_id', $query->user_id);
+            $list = TvList::where([
+                    ['api_id', $this->apiId],
+                    ['user_id', $query->user_id]
+                ]);
             $list->update([
                 'review_id' => $query->id
             ]);
@@ -50,7 +53,7 @@ class Reviews extends Component
 
     public function render()
     {
-        $allReviews = Review::where('api_id', $this->apiId)->get();
+        $allReviews = Review::where('api_id', $this->apiId)->with(['user', 'tvlist'])->get();
         return view('livewire.reviews', compact('allReviews'));
     }
 }

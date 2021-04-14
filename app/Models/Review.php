@@ -20,9 +20,9 @@ class Review extends Model
     }
 
     // Una review pertenece a un User
-    // public function tvlist()
-    // {
-    //     return $this->belongsTo(TvList::class);
-    // }
+    public function tvlist()
+    {
+        return $this->hasOne(TvList::class);
+    }
 
 }
