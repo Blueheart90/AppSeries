@@ -1,8 +1,10 @@
 <div class="mt-4" x-data="{
     trix: @entangle('content').defer,
-    recommended: @entangle('recommended')
+    recommended: @entangle('recommended'),
+    editSuccess: @entangle('editSuccess'),
+
 }">
-    @dump($allReviews)
+    @dump($oldData)
     <h2 class="mb-4 text-lg font-bold">{{ __('Reviews') }}</h2>
     @if ($allReviews->isEmpty())
         <div class="flex justify-center py-8 border border-green-400">
@@ -49,15 +51,31 @@
         @endforeach
     @endif
     <div class="mt-12 ">
+        <div
+            class="min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
+            x-show="true"
+            >
+            Reseña editada exitosamente
+        </div>
         <div class="mb-4 ">
             <img class="float-left object-cover w-20 h-20 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-            <div>
-                <h2 class="text-lg font-bold text-teal-400">Escribe una reseña sobre Path of Exile</h2>
-                <p class="text-gray-500 ">
-                    Describe lo que te ha gustado o no de esta serie/pelicula y si se lo recomendarías a otros.
-                    Recuerda ser educado/a y seguir las Normas y directrices.
-                </p>
-            </div>
+            @if ($oldData)
+                <div>
+                    <h2 class="text-lg font-bold text-teal-400">Reseñaste esta serie el 20 de agosto de 2016</h2>
+                    <p class="text-gray-500 ">
+                        Si quieres puedes editarla y cambiar si la recomiendas usando el editor de la parte de abajo
+                    </p>
+                </div>
+            @else
+                <div>
+                    <h2 class="text-lg font-bold text-teal-400">Escribe una reseña sobre Path of Exile</h2>
+                    <p class="text-gray-500 ">
+                        Describe lo que te ha gustado o no de esta serie/pelicula y si se lo recomendarías a otros.
+                        Recuerda ser educado/a y seguir las Normas y directrices.
+                    </p>
+                </div>
+
+            @endif
         </div>
         <form wire:submit.prevent="submit()">
             <div>
@@ -73,20 +91,29 @@
                 <div>
                     <p class="mb-1">¿Recomiendas esta serie?</p>
                     <x-jet-button type="button" @click="recommended = true">
-                        <x-like-svg class="text-white" x-bind:class="{ ' text-green-400 animate-bounce' : recommended === true }" ></x-like-svg>
+                        <x-like-svg class="text-white" x-bind:class="{ ' text-green-400 animate-bounce' : recommended == true }" ></x-like-svg>
                     </x-jet-button>
                     <x-jet-button type="button" @click="recommended = false">
-                        <x-dislike-svg class="text-gray-200 " x-bind:class="{ ' text-red-400 animate-bounce ' : recommended === false }" ></x-dislike-svg>
+                        <x-dislike-svg class="text-gray-200 " x-bind:class="{ ' text-red-400 animate-bounce ' : recommended == false }" ></x-dislike-svg>
                     </x-jet-button>
                 </div>
-                <x-jet-button class="self-end h-10 text-sm capitalize">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                    </svg>
-                    {{ __('Add') }}
-                </x-jet-button>
-            </div>
+                @if ($oldData)
+                    <x-jet-button type="button"  wire:click="update({{$oldData->id}})" class="self-end h-10 text-sm capitalize">
+                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        {{ __('Update') }}
+                    </x-jet-button>
+                @else
+                    <x-jet-button class="self-end h-10 text-sm capitalize">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                        </svg>
+                        {{ __('Add') }}
+                    </x-jet-button>
 
+                @endif
+            </div>
         </form>
     </div>
     {{-- <x-jet-button wire:click="update(1)">Update</x-jet-button> --}}

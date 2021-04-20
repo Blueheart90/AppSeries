@@ -72,8 +72,6 @@
                             </x-widget-side>
                         </div>
                     </div>
-                    <a href="{{ route('serie.show', ['serie' => 5050, 'slug' => 'breakin-bad']) }}">Pulse Aqui</a>
-
                 </x-contenido>
             </div>
         </div>
