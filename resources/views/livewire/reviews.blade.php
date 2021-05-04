@@ -4,7 +4,7 @@
     editSuccess: @entangle('editSuccess'),
 
 }">
-    @dump($oldData)
+    {{-- @dump($oldData) --}}
     <h2 class="mb-4 text-lg font-bold">{{ __('Reviews') }}</h2>
     @if ($allReviews->isEmpty())
         <div class="flex justify-center py-8 border border-green-400">
@@ -53,7 +53,7 @@
     <div class="mt-12 ">
         <div
             class="min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
-            x-show="true"
+            x-show="editSuccess"
             >
             Reseña editada exitosamente
         </div>
@@ -77,14 +77,17 @@
 
             @endif
         </div>
-        <form wire:submit.prevent="submit()">
+        <form
+            wire:submit.prevent="submit()"
+            x-show="false"
+            >
             <div>
                 <input id="content" name="content" type="hidden" value="{{$content}}" />
                 <div wire:ignore>
                     <trix-editor x-model.debounce.300ms="trix">
                     </trix-editor>
                 </div>
-                @error('content') <span class="error">{{ $message }}</span> @enderror
+                @error('content') <span class="text-red-600 ">{{ $message }}</span> @enderror
             </div>
 
             <div class="flex justify-between mt-2">
@@ -96,6 +99,7 @@
                     <x-jet-button type="button" @click="recommended = false">
                         <x-dislike-svg class="text-gray-200 " x-bind:class="{ ' text-red-400 animate-bounce ' : recommended == false }" ></x-dislike-svg>
                     </x-jet-button>
+                    @error('recommended') <span class="text-red-600">{{ $message }}</span> @enderror
                 </div>
                 @if ($oldData)
                     <x-jet-button type="button"  wire:click="update({{$oldData->id}})" class="self-end h-10 text-sm capitalize">
@@ -111,7 +115,6 @@
                         </svg>
                         {{ __('Add') }}
                     </x-jet-button>
-
                 @endif
             </div>
         </form>

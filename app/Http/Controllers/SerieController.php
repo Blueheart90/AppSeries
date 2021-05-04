@@ -122,7 +122,7 @@ class SerieController extends Controller
         $tvCheck = TvList::where([['api_id', $serie],['user_id', Auth::id()]])->first();
 
         // ** Se obtiene los estados. ej viendo, en plan para ver , etc..
-        $stateWatchingList = WatchingState::all(['id','name']);
+        // $stateWatchingList = WatchingState::all(['id','name']);
 
         // ** Se obtiene la escala de puntaje 1 a 10
         $scoreList = Score::all(['id','name']);
@@ -130,7 +130,7 @@ class SerieController extends Controller
         $viewModel = new TvShowViewModel(
             $tvShowDetails,
             $tvCheck,
-            $stateWatchingList,
+            // $stateWatchingList,
             $scoreList
         );
 

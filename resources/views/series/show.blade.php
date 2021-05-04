@@ -14,7 +14,7 @@
             {{ $tvshow['name'] }}
         </h2>
     </x-slot>
-    <div class="py-12" x-data="main()" x-init="init">
+    <div class="py-12">
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                 <div class="bg-white ">
@@ -29,13 +29,10 @@
                                     <img  src="{{ $tvshow['poster_path'] }}" alt="poster" class="mx-auto transition duration-150 ease-in-out rounded-sm lazyload hover:opacity-75">
                                     {{-- Desplegable con formulario --}}
                                     <div>
-                                        <div
-                                            class="min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
-                                            x-show="success"
-                                            >
-                                            Agregada exitosamente
-                                        </div>
-                                        <x-dropdown-form-list :tvshow="$tvshow" />
+
+                                        {{-- <x-dropdown-form-list :tvshow="$tvshow" /> --}}
+                                        <livewire:dropdown-add-list :tvshow="$tvshow" />
+
                                     </div>
                                 </figure>
                             </div>
@@ -129,7 +126,7 @@
                                     <ul class="flex text-base sm:text-lg">
                                         @foreach ($navList as $item)
                                             <li class="p-2" >
-                                                <a class="select-none" :class="{ 'border-b-2 border-teal-400 text-gray-800 font-bold': selected === '{{$item['option']}}' }" href="/{{$item['href']}}" x-on:click.prevent @click="selected = '{{$item['option']}}', genreInit()">{{$item['name']}}</a>
+                                                <a class="select-none" :class="{ 'border-b-2 border-teal-400 text-gray-800 font-bold': selected === '{{$item['option']}}' }" href="/{{$item['href']}}" x-on:click.prevent @click="selected = '{{$item['option']}}'">{{$item['name']}}</a>
                                             </li>
                                         @endforeach
                                     </ul>

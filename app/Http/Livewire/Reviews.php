@@ -35,7 +35,7 @@ class Reviews extends Component
     {
         // $this->validate(['content' => 'required']);
         // $this->content = "goodbye";
-        Log::debug($this->content);
+        // Log::debug($this->content);
         $this->validate();
 
         DB::transaction(function () {
@@ -48,10 +48,11 @@ class Reviews extends Component
             $list = TvList::where([
                     ['api_id', $this->apiId],
                     ['user_id', $query->user_id]
-                ]);
+                ])->firstOrFail();
+
             $list->update([
-                'review_id' => $query->id
-            ]);
+                    'review_id' => $query->id
+                ]);
 
         }, $deadlockRetries = 5);
     }

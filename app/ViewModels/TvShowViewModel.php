@@ -12,15 +12,15 @@ class TvShowViewModel extends ViewModel
 {
     public $tvshow;
     public $tvCheck;
-    public $stateWatchingList;
+    // public $stateWatchingList;
     public $scoreList;
     public $editMode;
 
-    public function __construct($tvshow, $tvCheck, $stateWatchingList, $scoreList)
+    // Se retiró $stateWatchingList del contructor, ya que se obtiene en el componente del dropDownform o el de livewire
+    public function __construct($tvshow, $tvCheck, $scoreList)
     {
         $this->tvshow = $tvshow;
         $this->tvCheck = $tvCheck;
-        $this->stateWatchingList = $stateWatchingList;
         $this->scoreList = $scoreList;
         $this->editMode = isset($this->tvCheck) ? true : false;
     }
@@ -112,15 +112,15 @@ class TvShowViewModel extends ViewModel
                 : '',
             'tagline' => $this->tvshow['tagline'],
             'year' => Carbon::parse($this->tvshow['first_air_date'])->format('Y'),
-            'seasons' => collect($this->tvshow['seasons'])->mapWithKeys(function ($season) {
-                return [$season['season_number'] => $season['episode_count']];
-            }),
             'stringEpCount' => collect($this->tvshow['seasons'])->mapWithKeys(function ($season) {
                 return [$season['season_number'] => $season['episode_count']];
+            }),
+            'seasons' => collect($this->tvshow['seasons'])->mapWithKeys(function ($season) {
+                return [$season['season_number'] => $season['episode_count']];
             })->reject(function ($value, $key) {
-                // No toma el index 0, el cual equivale a los ep. espaciales
+                // No toma el index 0, el cual equivale a los ep. especiales
                 return $key == 0;
-            })->implode(','),
+            }),
 
         ])->only([
             'poster_path', 'id', 'genres', 'name', 'vote_average', 'overview', 'first_air_date', 'credits' ,
