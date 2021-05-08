@@ -1,7 +1,7 @@
 <div class="mt-4" x-data="{
     trix: @entangle('content').defer,
     recommended: @entangle('recommended'),
-    editSuccess: @entangle('editSuccess'),
+    showForm: @entangle('showForm'),
 
 }">
     {{-- @dump($oldData) --}}
@@ -51,19 +51,14 @@
         @endforeach
     @endif
     <div class="mt-12 ">
-        <div
-            class="min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
-            x-show="editSuccess"
-            >
-            Reseña editada exitosamente
-        </div>
         <div class="mb-4 ">
             <img class="float-left object-cover w-20 h-20 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
             @if ($oldData)
                 <div>
                     <h2 class="text-lg font-bold text-teal-400">Reseñaste esta serie el 20 de agosto de 2016</h2>
                     <p class="text-gray-500 ">
-                        Si quieres puedes editarla y cambiar si la recomiendas usando el editor de la parte de abajo
+                        Si quieres puedes editarla y cambiar si la recomiendas.
+                        <span class="text-gray-800 cursor-pointer" wire:click="$toggle('showForm')">Editar reseña</span>
                     </p>
                 </div>
             @else
@@ -79,7 +74,13 @@
         </div>
         <form
             wire:submit.prevent="submit()"
-            x-show="false"
+            x-show="showForm"
+            x-on:submit.prevent
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 "
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-end="opacity-0"
             >
             <div>
                 <input id="content" name="content" type="hidden" value="{{$content}}" />
@@ -118,6 +119,24 @@
                 @endif
             </div>
         </form>
+        {{-- @if (session()->has('message'))
+            <div
+                class="flex items-center justify-between min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
+                >
+                <span class="pl-2">
+                    {{ session('message') }}
+                </span>
+                <div
+                    class="cursor-pointer"
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+        @endif --}}
+        <x-flash-messages></x-flash-messages>
     </div>
     {{-- <x-jet-button wire:click="update(1)">Update</x-jet-button> --}}
+
 </div>

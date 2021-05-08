@@ -24,37 +24,10 @@
                 $wire.getEpisodesForSeason(season);
         });
 
-        {{-- setTimeout(() => {notify = false}, 6000); --}}
+
     "
 
 >
-    <div
-        x-show="notify"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 "
-        x-transition:enter-end="opacity-100 transform translate-y-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-end="opacity-0"
-        >
-        @if (session()->has('message'))
-            <div
-                class="flex justify-between min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
-                >
-                <span class="pl-2">
-                    Agregada exitosamente
-                </span>
-                <div
-                    class="cursor-pointer"
-                    @click="notify = false"
-                    >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-        @endif
-    </div>
-
     <div
         class="flex px-2 py-1 mt-2 bg-gray-700 border border-gray-200 rounded-t-md"
         :class="{ 'rounded-b-md' : open === false }"
@@ -160,7 +133,7 @@
             </select>
         </div>
 
-        @if ($oldData)
+        @if ($editMode)
             <x-jet-button type="button"  wire:click="updateTvList({{ $oldData->id }})" class="min-w-full mb-2" color="gray">
                 {{-- SVG Update --}}
                 <svg class="w-4 mr-2 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -178,4 +151,23 @@
             </x-jet-button>
         @endif
     </form>
+    {{-- @if (session()->has('message'))
+        <div
+            class="flex items-center justify-between min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
+            x-show="notify"
+            >
+            <span class="pl-2">
+                {{ session('message') }}
+            </span>
+            <div
+                class="cursor-pointer"
+                @click="notify = false"
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+        </div>
+    @endif --}}
+    <x-flash-messages></x-flash-messages>
 </div>

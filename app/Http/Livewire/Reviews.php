@@ -7,7 +7,8 @@ use App\Models\TvList;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class Reviews extends Component
 {
@@ -16,13 +17,14 @@ class Reviews extends Component
     public $apiId;
     public $recommended = null;
     public $oldData;
-    public $editSuccess = false;
+    public $showForm = true;
 
     public function mount(){
         $this->oldData = Review::where('api_id', $this->apiId)->where('user_id', auth()->id())->first();
         if ($this->oldData) {
             $this->content = $this->oldData->content;
             $this->recommended = $this->oldData->recommended;
+            $this->showForm = false;
         }
     }
 
@@ -38,23 +40,37 @@ class Reviews extends Component
         // Log::debug($this->content);
         $this->validate();
 
-        DB::transaction(function () {
-            $query = auth()->user()->reviews()->create([
-                'content' => $this->content,
-                'api_id' => $this->apiId,
-                'recommended' => $this->recommended,
-            ]);
+        try {
 
-            $list = TvList::where([
-                    ['api_id', $this->apiId],
-                    ['user_id', $query->user_id]
-                ])->firstOrFail();
-
-            $list->update([
-                    'review_id' => $query->id
+            DB::transaction(function () {
+                $query = auth()->user()->reviews()->create([
+                    'content' => $this->content,
+                    'api_id' => $this->apiId,
+                    'recommended' => $this->recommended,
                 ]);
 
-        }, $deadlockRetries = 5);
+                $list = TvList::where([
+                        ['api_id', $this->apiId],
+                        ['user_id', $query->user_id]
+                    ])->firstOrFail();
+
+                $list->update([
+                        'review_id' => $query->id
+                    ]);
+
+            }, $deadlockRetries = 5);
+
+            session()->flash('success', 'Reseña agregada exitosamente');
+
+        } catch (ModelNotFoundException $th) {
+            Log::debug($th->getMessage());
+            Log::debug($th->getCode());
+            Log::debug(get_class($th));
+            session()->flash('error', 'Error, aun no tienes agregada estas serie a una lista');
+        }
+
+
+
     }
 
 
@@ -72,10 +88,11 @@ class Reviews extends Component
                 'recommended' => $this->recommended
             ]);
 
+            session()->flash('success', 'Reseña actualizada exitosamente');
+
         } catch (\Throwable $e) {
 
         }
-        $this->editSuccess = true;
     }
 
     public function render()

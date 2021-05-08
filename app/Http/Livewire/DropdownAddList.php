@@ -42,6 +42,9 @@ class DropdownAddList extends Component
         $this->fields['poster'] = $this->tvshow["poster_path"];
 
         $this->checkUser();
+        $this->fillFields();
+
+
     }
 
     public function state()
@@ -72,6 +75,11 @@ class DropdownAddList extends Component
     {
         // Se revisa si ya el usuario tiene agregada la serie en una lista
         $this->oldData = TvList::where('api_id', $this->fields['api_id'])->where('user_id', auth()->id())->first();
+
+    }
+
+    public function fillFields()
+    {
         if ($this->oldData) {
             $this->editMode = true;
 
@@ -86,18 +94,26 @@ class DropdownAddList extends Component
     {
         $tvList->update($this->fields);
         $this->open = false;
+        session()->flash('success', 'Editada exitosamente');
     }
 
     public function addTvList()
     {
         auth()->user()->tvlists()->create($this->fields);
-        session()->flash('message', 'Agregada exitosamente');
-        $this->open = false;
         $this->checkUser();
+        $this->open = false;
+        $this->editMode = true;
+        session()->flash('success', 'Agregada exitosamente');
+    }
+
+    public function hydrate()
+    {
+        Log::debug("Hidratando");
     }
 
     public function render()
     {
+        Log::debug("renderizando");
         return view('livewire.dropdown-add-list');
     }
 }
