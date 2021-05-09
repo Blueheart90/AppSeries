@@ -1,5 +1,5 @@
 <div class="mt-4" x-data="{
-    trix: @entangle('content').defer,
+    trix: @entangle('content'),
     recommended: @entangle('recommended'),
     showForm: @entangle('showForm'),
 
@@ -52,10 +52,10 @@
     @endif
     <div class="mt-12 ">
         <div class="mb-4 ">
-            <img class="float-left object-cover w-20 h-20 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+            <img class="float-left object-cover w-20 h-20 mb-4 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
             @if ($oldData)
                 <div>
-                    <h2 class="text-lg font-bold text-teal-400">Reseñaste esta serie el 20 de agosto de 2016</h2>
+                    <h2 class="text-lg font-bold text-teal-400">Reseñaste esta serie en {{ \Carbon\Carbon::parse($oldData->created_at)->format('M d, Y') }}</h2>
                     <p class="text-gray-500 ">
                         Si quieres puedes editarla y cambiar si la recomiendas.
                         <span class="text-gray-800 cursor-pointer" wire:click="$toggle('showForm')">Editar reseña</span>
@@ -94,10 +94,10 @@
             <div class="flex justify-between mt-2">
                 <div>
                     <p class="mb-1">¿Recomiendas esta serie?</p>
-                    <x-jet-button type="button" @click="recommended = true">
+                    <x-jet-button type="button" wire:click="$set('recommended', 1)">
                         <x-like-svg class="text-white" x-bind:class="{ ' text-green-400 animate-bounce' : recommended == true }" ></x-like-svg>
                     </x-jet-button>
-                    <x-jet-button type="button" @click="recommended = false">
+                    <x-jet-button type="button" wire:click="$set('recommended', 0)">
                         <x-dislike-svg class="text-gray-200 " x-bind:class="{ ' text-red-400 animate-bounce ' : recommended == false }" ></x-dislike-svg>
                     </x-jet-button>
                     @error('recommended') <span class="text-red-600">{{ $message }}</span> @enderror

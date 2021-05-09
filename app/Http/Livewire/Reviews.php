@@ -20,18 +20,31 @@ class Reviews extends Component
     public $showForm = true;
 
     public function mount(){
-        $this->oldData = Review::where('api_id', $this->apiId)->where('user_id', auth()->id())->first();
-        if ($this->oldData) {
-            $this->content = $this->oldData->content;
-            $this->recommended = $this->oldData->recommended;
-            $this->showForm = false;
-        }
+        $this->checkUser();
+        $this->fillFields();
+
     }
 
     protected $rules = [
         'content' => 'required',
         'recommended' => 'required',
     ];
+
+    public function checkUser()
+    {
+        // Se revisa si ya el usuario tiene agregada un review de la serie
+        $this->oldData = Review::where('api_id', $this->apiId)->where('user_id', auth()->id())->first();
+
+    }
+
+    public function fillFields()
+    {
+        if ($this->oldData) {
+            $this->content = $this->oldData->content;
+            $this->recommended = $this->oldData->recommended;
+            $this->showForm = false;
+        }
+    }
 
     public function submit()
     {
@@ -60,13 +73,15 @@ class Reviews extends Component
 
             }, $deadlockRetries = 5);
 
+            $this->checkUser();
+            $this->showForm = false;
             session()->flash('success', 'Reseña agregada exitosamente');
 
         } catch (ModelNotFoundException $th) {
             Log::debug($th->getMessage());
             Log::debug($th->getCode());
             Log::debug(get_class($th));
-            session()->flash('error', 'Error, aun no tienes agregada estas serie a una lista');
+            session()->flash('error', 'Error, primero debes agregar la serie a una lista');
         }
 
 
