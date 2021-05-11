@@ -51,7 +51,9 @@ class Reviews extends Component
         // $this->validate(['content' => 'required']);
         // $this->content = "goodbye";
         // Log::debug($this->content);
-        $this->validate();
+        $validado = $this->validate();
+        Log::debug($validado);
+
 
         try {
 

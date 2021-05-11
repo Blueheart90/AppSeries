@@ -58,7 +58,7 @@
         class="p-4 text-sm text-gray-700 bg-gray-200 bg-opacity-75 rounded-b-md"
         x-show="open"
         {{-- x-on:submit.prevent --}}
-        wire:submit.prevent
+        wire:submit.prevent="addTvList()"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 "
         x-transition:enter-end="opacity-100 transform translate-y-0"
@@ -74,7 +74,6 @@
                 name="watching_state_id"
                 id="state"
                 wire:model="fields.watching_state_id"
-                {{-- wire:change="stateChange($event.target.value)" --}}
             >
                 <option disabled selected value='0'>Seleccione</option>
                 @foreach ($stateWatchingList as $state)
@@ -110,7 +109,7 @@
                 type="number"
                 min="0"
                 name="episode"
-                wire:model="fields.episode"
+                wire:model.defer="fields.episode"
                 :max="{{ $epForSeason }}"
             >
             <span class="pl-2 ">/</span>
@@ -132,7 +131,6 @@
 
             </select>
         </div>
-
         @if ($editMode)
             <x-jet-button type="button"  wire:click="updateTvList({{ $oldData->id }})" class="min-w-full mb-2" color="gray">
                 {{-- SVG Update --}}
@@ -142,7 +140,7 @@
                 {{ __('Update') }}
             </x-jet-button>
         @else
-            <x-jet-button type="button"  wire:click="addTvList()" class="min-w-full mb-2" color="gray">
+            <x-jet-button  class="min-w-full mb-2" color="gray">
                 {{-- SVG add --}}
                 <svg class="w-4 mr-2 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -150,24 +148,16 @@
                 {{ __('Add') }}
             </x-jet-button>
         @endif
-    </form>
-    {{-- @if (session()->has('message'))
-        <div
-            class="flex items-center justify-between min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
-            x-show="notify"
-            >
-            <span class="pl-2">
-                {{ session('message') }}
-            </span>
-            <div
-                class="cursor-pointer"
-                @click="notify = false"
-                >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+        @if ($errors->any())
+            <div class="text-red-600">
+                <h2>Error, hay campos sin llenar</h2>
+                <ul class="pl-4 list-disc">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
-    @endif --}}
+        @endif
+    </form>
     <x-flash-messages></x-flash-messages>
 </div>

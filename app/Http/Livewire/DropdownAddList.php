@@ -27,6 +27,20 @@ class DropdownAddList extends Component
     public $epForSeason;
     public $scoreList;
 
+    protected $rules = [
+        'fields.watching_state_id' => 'gt:0',
+        'fields.season' => 'required',
+        'fields.score_id' => 'gt:0',
+        'fields.episode' => 'required',
+        'fields.name' => 'required',
+        'fields.api_id' => 'required',
+        'fields.poster' => 'required',
+    ];
+
+    protected $messages = [
+        'fields.watching_state_id.gt' => 'Debes seleccionar un estado',
+        'fields.score_id.gt' => 'Debes asignar un puntaje',
+    ];
 
     public function mount(){
 
@@ -99,7 +113,10 @@ class DropdownAddList extends Component
 
     public function addTvList()
     {
-        auth()->user()->tvlists()->create($this->fields);
+        // $this->validate();
+        $validatedData = $this->validate();
+        Log::debug($validatedData);
+        auth()->user()->tvlists()->create($validatedData['fields']);
         $this->checkUser();
         $this->open = false;
         $this->editMode = true;
