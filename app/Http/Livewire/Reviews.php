@@ -88,12 +88,6 @@ class Reviews extends Component
 
     }
 
-
-    public function edit()
-    {
-
-    }
-
     public function update(Review $review)
     {
         Log::debug($review);
@@ -102,11 +96,11 @@ class Reviews extends Component
                 'content' => $this->content,
                 'recommended' => $this->recommended
             ]);
-
+            $this->showForm = false;
             session()->flash('success', 'Reseña actualizada exitosamente');
 
         } catch (\Throwable $e) {
-
+            session()->flash('error', 'No se pudo actualizar');
         }
     }
 

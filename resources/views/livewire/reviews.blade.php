@@ -1,5 +1,5 @@
 <div class="mt-4" x-data="{
-    trix: @entangle('content'),
+    content: @entangle('content'),
     recommended: @entangle('recommended'),
     showForm: @entangle('showForm'),
 
@@ -85,7 +85,7 @@
             <div>
                 <input id="content" name="content" type="hidden" value="{{$content}}" />
                 <div wire:ignore>
-                    <trix-editor x-model.debounce.300ms="trix">
+                    <trix-editor wire:model.debounce.300ms="content">
                     </trix-editor>
                 </div>
                 @error('content') <span class="text-red-600 ">{{ $message }}</span> @enderror
