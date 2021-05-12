@@ -113,9 +113,7 @@ class DropdownAddList extends Component
 
     public function addTvList()
     {
-        // $this->validate();
         $validatedData = $this->validate();
-        Log::debug($validatedData);
         auth()->user()->tvlists()->create($validatedData['fields']);
         $this->checkUser();
         $this->open = false;

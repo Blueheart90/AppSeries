@@ -14,4 +14,10 @@ class WatchingState extends Model
     {
         return $this->hasMany(TvList::class);
     }
+
+    // Un estado lo puede tener muchas pelicula listphp
+    public function movielists()
+    {
+        return $this->hasMany(MovieList::class);
+    }
 }

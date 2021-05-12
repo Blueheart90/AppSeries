@@ -63,6 +63,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(TvList::class);
     }
+    // Un usuario tiene muchas series agregadas a TvList
+    public function movielists()
+    {
+        return $this->hasMany(MovieList::class);
+    }
 
     // Un usuario tiene muchas reviews
     public function reviews()
