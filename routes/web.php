@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SerieController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\TvListController;
 use App\Models\TvList;
 
@@ -44,6 +45,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::get('/tvlist/{id}',[TvListController::class, 'checkUser'])->name('tvlist.checkuser');
     Route::put('/tvlist/{tvlist}',[TvListController::class, 'update'])->name('tvlist.update');
 
+    // Rutas de peliculas
+    Route::get('/peliculas',[MovieController::class, 'index'])->name('peliculas');
+    // Route::get('/peliculas/{serie}/{slug?}', [MovieController::class, 'show'])->name('serie.show');
+    // Route::post('/peliculas/buscar',[MovieController::class, 'search'])->name('search');
 
 
 });
