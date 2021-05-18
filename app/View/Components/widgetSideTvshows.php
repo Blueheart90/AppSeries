@@ -4,16 +4,21 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class widget-side extends Component
+class widgetSideTvshows extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+
+    public $topRatedTv;
+    public $take;
+
+    public function __construct($topRatedTv, $take = 3)
     {
-        //
+        $this->topRatedTv = $topRatedTv;
+        $this->take = $take;
     }
 
     /**
@@ -23,6 +28,6 @@ class widget-side extends Component
      */
     public function render()
     {
-        return view('components.widget-side');
+        return view('components.widget-side-tvshows');
     }
 }

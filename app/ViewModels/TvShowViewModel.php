@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Spatie\ViewModels\ViewModel;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 class TvShowViewModel extends ViewModel
@@ -51,7 +52,15 @@ class TvShowViewModel extends ViewModel
     }
     public function info()
     {
-        $countryInfo = $this->api_flags( Str::lower($this->tvshow['origin_country'][0]));
+        if ($this->tvshow['origin_country']) {
+            $countryInfo = $this->api_flags( Str::lower($this->tvshow['origin_country'][0]));
+        }else{
+            $countryInfo = [
+                'name' => 'No disponible',
+                'flag' => 'No disponible',
+                'language' => 'No disponible',
+            ];
+        }
 
         return collect([
             'Primera Emision' => Carbon::parse($this->tvshow['first_air_date'])->isoFormat('MMMM D, YYYY'),
@@ -68,9 +77,6 @@ class TvShowViewModel extends ViewModel
             'Compañia' => collect($this->tvshow['networks'])->pluck('name')->implode(', '),
             'Pais De Origen' => '<img class="inline w-10 cursor-pointer " src="' . $countryInfo['flag'] .'" title="' . $countryInfo['name'] . '">' ,
             'Lenguaje Original' => $countryInfo['language'],
-            // 'En produccion' => $this->tvshow['in_production']
-            //     ? 'Si'
-            //     : 'No',
         ]);
     }
 

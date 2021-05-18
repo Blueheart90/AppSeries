@@ -4,16 +4,21 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class dropdown-genres extends Component
+class widgetSideMovies extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+
+    public $topRatedMovie;
+    public $take;
+
+    public function __construct($topRatedMovie, $take = 3)
     {
-        //
+        $this->topRatedMovie = $topRatedMovie;
+        $this->take = $take;
     }
 
     /**
@@ -23,6 +28,6 @@ class dropdown-genres extends Component
      */
     public function render()
     {
-        return view('components.dropdown-genres');
+        return view('components.widget-side-movies');
     }
 }

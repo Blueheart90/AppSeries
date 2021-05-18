@@ -13,7 +13,7 @@
                     </x-slot>
                     <x-swiper>
                         @foreach ($trendingMovie as $tvshow)
-                            <x-tv-card :tvshow="$tvshow" isslider="true"/>
+                            <x-movie-card :tvshow="$tvshow" isslider="true"/>
                         @endforeach
                     </x-swiper>
                     <div class="grid grid-cols-4 gap-4 mt-6" x-data="main()" >
@@ -22,9 +22,9 @@
                                 @php
                                     $navList = [
                                         ['name' => 'Populares', 'href' => 'populares', 'option' => 'option-1'],
-                                        ['name' => 'Al Aire', 'href' => 'al-aire', 'option' => 'option-2'],
+                                        ['name' => 'En los cines', 'href' => 'en-los-cines', 'option' => 'option-2'],
                                         ['name' => 'Categorias', 'href' => 'categorias', 'option' => 'categorias'],
-                                ];
+                                    ];
                                 @endphp
                                 <ul class="flex text-base sm:text-lg">
                                     @foreach ($navList as $item)
@@ -43,12 +43,12 @@
                             {{-- Secciones --}}
                             <div class="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"  x-show.transition.in.opacity.duration.750ms="selected === 'option-1'">
                                 @foreach ($popularMovie as $tvshow)
-                                    <x-tv-card class="" :tvshow="$tvshow"/>
+                                    <x-movie-card class="" :tvshow="$tvshow"/>
                                 @endforeach
                             </div>
                             <div class="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"  x-show.transition.in.opacity.duration.750ms="selected === 'option-2'">
                                 @foreach ($nowPlayingMovie as $tvshow)
-                                    <x-tv-card class="" :tvshow="$tvshow"/>
+                                    <x-movie-card class="" :tvshow="$tvshow"/>
                                 @endforeach
                             </div>
                             <div class="mt-8" x-init=""  x-show.transition.in.opacity.duration.750ms="selected === 'categorias'">
@@ -65,11 +65,11 @@
                         <div class="hidden side-r lg:block" >
                             {{-- <x-dropdown-genres :genres="$genres" ></x-dropdown-genres> --}}
                             {{-- @livewire('dropdown-genres', ['genres' => $genres]) --}}
-                            <x-widget-side :topRatedTv="$topRatedMovie" take="5">
+                            <x-widget-side-movies :topRatedMovie="$topRatedMovie" take="10">
                                 <x-slot name="titulo">
                                     Mejor Calificadas
                                 </x-slot>
-                            </x-widget-side>
+                            </x-widget-side-movies>
                         </div>
                     </div>
                 </x-contenido>
@@ -270,7 +270,7 @@
                 route: function(id, slug) {
 
                     var link = id.toString().concat('/', this.string_to_slug(slug));
-                    var url = "{{ route('serie.show', ['serie' => 'id', 'slug' => 'slug']) }}";
+                    var url = "{{ route('pelicula.show', ['pelicula' => 'id', 'slug' => 'slug']) }}";
                     url = url.replace('id/slug', link);
                     return url;
 

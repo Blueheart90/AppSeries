@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\Score;
+use App\Models\MovieList;
 use Illuminate\Http\Request;
 use App\ViewModels\MovieViewModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use App\ViewModels\MovieShowViewModel;
 
 class MovieController extends Controller
 {
@@ -83,9 +87,38 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function show(Movie $movie)
+    public function show($movie)
     {
-        //
+        // Querys
+        $language = 'es-mx';
+        $imageLanguage = 'en,es,null';
+        $appendResponse = 'credits,videos,images';
+
+        // Detalles de Pelicula
+        $movieShowDetails = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/movie/' . $movie, ['language' => $language,'append_to_response' => $appendResponse, 'include_image_language' => $imageLanguage])
+            ->json();
+
+        // ** Se comprueba si el user ya agregó la movie
+        // $movieCheck = movieList::where([['api_id', $movie],['user_id', Auth::id()]])->exists();
+
+        // ** Se obtiene el registro de la movie agregada por el User
+        $movieCheck = MovieList::where([['api_id', $movie],['user_id', Auth::id()]])->first();
+
+        // ** Se obtiene los estados. ej viendo, en plan para ver , etc..
+        // $stateWatchingList = WatchingState::all(['id','name']);
+
+        // ** Se obtiene la escala de puntaje 1 a 10
+        $scoreList = Score::all(['id','name']);
+
+        $viewModel = new MovieShowViewModel(
+            $movieShowDetails,
+            $movieCheck,
+            $scoreList
+        );
+
+
+        return view('movies.show', $viewModel);
     }
 
     /**

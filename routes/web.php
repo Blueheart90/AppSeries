@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     // Rutas de peliculas
     Route::get('/peliculas',[MovieController::class, 'index'])->name('peliculas');
-    // Route::get('/peliculas/{serie}/{slug?}', [MovieController::class, 'show'])->name('serie.show');
+    Route::get('/peliculas/{pelicula}/{slug?}', [MovieController::class, 'show'])->name('pelicula.show');
     // Route::post('/peliculas/buscar',[MovieController::class, 'search'])->name('search');
 
 

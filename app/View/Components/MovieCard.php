@@ -4,16 +4,21 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class widget-genres extends Component
+class MovieCard extends Component
 {
+    public $tvshow;
+    public $isslider;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($tvshow, $isslider = false)
     {
         //
+        $this->tvshow = $tvshow;
+        $this->isslider = $isslider;
     }
 
     /**
@@ -23,6 +28,6 @@ class widget-genres extends Component
      */
     public function render()
     {
-        return view('components.widget-genres');
+        return view('components.movie-card');
     }
 }

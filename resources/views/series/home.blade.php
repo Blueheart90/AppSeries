@@ -65,11 +65,11 @@
                         <div class="hidden side-r lg:block" >
                             {{-- <x-dropdown-genres :genres="$genres" ></x-dropdown-genres> --}}
                             {{-- @livewire('dropdown-genres', ['genres' => $genres]) --}}
-                            <x-widget-side :topRatedTv="$topRatedTv" take="5">
+                            <x-widget-side-tvshows :topRatedTv="$topRatedTv" take="10">
                                 <x-slot name="titulo">
                                     Mejor Calificadas
                                 </x-slot>
-                            </x-widget-side>
+                            </x-widget-side-tvshows>
                         </div>
                     </div>
                 </x-contenido>
