@@ -29,7 +29,7 @@
                                     <div>
 
                                         {{-- <x-dropdown-form-list :movie="$movie" /> --}}
-                                        {{-- <livewire:dropdown-add-list :movie="$movie" /> --}}
+                                        <livewire:dropdown-add-movie-list :movie="$movie" />
 
                                     </div>
                                 </figure>
