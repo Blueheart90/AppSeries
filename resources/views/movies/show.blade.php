@@ -203,7 +203,7 @@
 
                             </div>
                             {{--End Tab navbar --}}
-                            <livewire:reviews :apiId="$movie['id']"/>
+                            <livewire:reviews-movies :movie='$movie' />
                         </div>
                     </div>
                 </div>

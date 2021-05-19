@@ -39,11 +39,10 @@
                         </div>
                         <div class="text-sm text-right text-gray-600 ">
                             <p>Publicado: {{ $review->created_at->diffForHumans() }}</p>
-                            <p>Temp vistas: {{ $review->tvlist->season }}</p>
-                            <p>Cap vistos: {{ $review->tvlist->episode }}</p>
                         </div>
                     </div>
                 </div>
+
                 <p class="mt-4">{!! $review->content !!}</p>
                 @if ($review->updated_at != $review->created_at)
                     <p class="text-sm italic text-right text-gray-600 ">Editada {{ \Carbon\Carbon::parse($review->updated_at)->isoFormat('MMMM D, YYYY') }}</p>
@@ -65,7 +64,7 @@
                 </div>
             @else
                 <div>
-                    <h2 class="text-lg font-bold text-teal-400">Escribe una reseña sobre: <span class="italic">{{ $tvshow['name'] }}</span></h2>
+                    <h2 class="text-lg font-bold text-teal-400">Escribe una reseña sobre: <span class="italic">{{ $movie['name'] }}</span></h2>
                     <p class="text-gray-500 ">
                         Describe lo que te ha gustado o no de esta serie/pelicula y si se lo recomendarías a otros.
                         Recuerda ser educado/a y seguir las Normas y directrices.
@@ -121,24 +120,7 @@
                 @endif
             </div>
         </form>
-        {{-- @if (session()->has('message'))
-            <div
-                class="flex items-center justify-between min-w-full p-1 my-2 text-sm text-center text-green-500 bg-green-100 border border-green-500 rounded-md "
-                >
-                <span class="pl-2">
-                    {{ session('message') }}
-                </span>
-                <div
-                    class="cursor-pointer"
-                    >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </div>
-            </div>
-        @endif --}}
         <x-flash-messages></x-flash-messages>
     </div>
-    {{-- <x-jet-button wire:click="update(1)">Update</x-jet-button> --}}
-
 </div>
+

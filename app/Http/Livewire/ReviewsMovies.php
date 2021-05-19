@@ -3,21 +3,19 @@
 namespace App\Http\Livewire;
 
 use App\Models\Review;
-use App\Models\TvList;
 use Livewire\Component;
+use App\Models\MovieList;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-
-class Reviews extends Component
+class ReviewsMovies extends Component
 {
-
     public $content;
     public $recommended = null;
     public $oldData;
     public $showForm = true;
-    public $tvshow;
+    public $movie;
 
     public function mount(){
         $this->checkUser();
@@ -33,7 +31,7 @@ class Reviews extends Component
     public function checkUser()
     {
         // Se revisa si ya el usuario tiene agregada un review de la serie
-        $this->oldData = Review::where('api_id', $this->tvshow['id'])->where('user_id', auth()->id())->first();
+        $this->oldData = Review::where('api_id', $this->movie['id'])->where('user_id', auth()->id())->first();
 
     }
 
@@ -55,12 +53,12 @@ class Reviews extends Component
             DB::transaction(function () {
                 $query = auth()->user()->reviews()->create([
                     'content' => $this->content,
-                    'api_id' => $this->tvshow['id'],
+                    'api_id' => $this->movie['id'],
                     'recommended' => $this->recommended,
                 ]);
 
-                $list = TvList::where([
-                        ['api_id', $this->tvshow['id']],
+                $list = MovieList::where([
+                        ['api_id', $this->movie['id']],
                         ['user_id', $query->user_id]
                     ])->firstOrFail();
 
@@ -78,7 +76,7 @@ class Reviews extends Component
             Log::debug($th->getMessage());
             Log::debug($th->getCode());
             Log::debug(get_class($th));
-            session()->flash('error', 'Error, primero debes agregar la serie a una lista');
+            session()->flash('error', 'Error, primero debes agregar la pelicula a una lista');
         }
     }
 
@@ -100,7 +98,7 @@ class Reviews extends Component
 
     public function render()
     {
-        $allReviews = Review::where('api_id', $this->tvshow['id'])->with(['user', 'tvlist'])->get();
-        return view('livewire.reviews', compact('allReviews'));
+        $allReviews = Review::where('api_id', $this->movie['id'])->with(['user', 'movielist'])->get();
+        return view('livewire.reviews-movies', compact('allReviews'));
     }
 }

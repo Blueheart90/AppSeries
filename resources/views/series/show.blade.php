@@ -182,7 +182,7 @@
 
                             </div>
                             {{--End Tab navbar --}}
-                            <livewire:reviews :apiId="$tvshow['id']"/>
+                            <livewire:reviews :tvshow="$tvshow"/>
                         </div>
                     </div>
                 </div>
