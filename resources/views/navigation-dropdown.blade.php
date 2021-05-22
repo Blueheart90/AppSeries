@@ -41,14 +41,14 @@
                     @auth
                         <!-- Settings Dropdown -->
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <x-jet-dropdown class="px-4 divide-x divide-green-500" align="right" width="48">
+                            <x-jet-dropdown class="px-4 border-r border-gray-200" align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="flex items-center text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
-                                        <div class="">
+                                        <div>
                                             Mis listas
                                         </div>
                                         <div class="ml-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                         </div>
@@ -158,7 +158,7 @@
                         </div>
                     @else
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        <a href="{{ route('login') }}" class="text-sm font-semibold text-gray-500 ">{{ __('Login') }}</a>
+                        <a href="{{ route('login') }}" class="px-4 text-sm font-semibold text-gray-500 border-r border-gray-200 ">{{ __('Login') }}</a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm font-semibold text-gray-500 ">{{ __('Register') }}</a>
