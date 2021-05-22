@@ -6,7 +6,7 @@ use App\Models\Score;
 use App\Models\TvList;
 use Livewire\Component;
 use App\Models\WatchingState;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class DropdownAddList extends Component
 {
@@ -114,21 +114,20 @@ class DropdownAddList extends Component
     public function addTvList()
     {
         $validatedData = $this->validate();
-        auth()->user()->tvlists()->create($validatedData['fields']);
-        $this->checkUser();
-        $this->open = false;
-        $this->editMode = true;
-        session()->flash('success', 'Agregada exitosamente');
-    }
+        if (Auth::check()) {
+            auth()->user()->tvlists()->create($validatedData['fields']);
+            $this->checkUser();
+            $this->open = false;
+            $this->editMode = true;
+            session()->flash('success', 'Agregada exitosamente');
+        }else{
+            session()->flash('error', 'Debes iniciar sesion');
+        }
 
-    public function hydrate()
-    {
-        Log::debug("Hidratando");
     }
 
     public function render()
     {
-        Log::debug("renderizando");
         return view('livewire.dropdown-add-list');
     }
 }

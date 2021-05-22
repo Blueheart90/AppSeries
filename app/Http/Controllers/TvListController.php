@@ -54,6 +54,11 @@ class TvListController extends Controller
         //
     }
 
+    public function showAll()
+    {
+        //
+    }
+
     public function checkUser($serie)
     {
         // ** Se obtiene el registro de la serie agregada por el User

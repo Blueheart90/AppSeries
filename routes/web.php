@@ -35,20 +35,19 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         return view('users');
     })->name('users');
 
-    // Rutas de Series
-    Route::get('/series',[SerieController::class, 'index'])->name('series');
-    Route::get('/series/{serie}/{slug?}', [SerieController::class, 'show'])->name('serie.show');
-    Route::post('/series/buscar',[SerieController::class, 'search'])->name('search');
-
-    // Rutas TvList
-    Route::post('/tvlist',[TvListController::class, 'store'])->name('tvlist.store');
-    Route::get('/tvlist/{id}',[TvListController::class, 'checkUser'])->name('tvlist.checkuser');
-    Route::put('/tvlist/{tvlist}',[TvListController::class, 'update'])->name('tvlist.update');
-
-    // Rutas de peliculas
-    Route::get('/peliculas',[MovieController::class, 'index'])->name('peliculas');
-    Route::get('/peliculas/{pelicula}/{slug?}', [MovieController::class, 'show'])->name('pelicula.show');
-    // Route::post('/peliculas/buscar',[MovieController::class, 'search'])->name('search');
 
 
 });
+
+// Rutas de Series
+Route::get('/series',[SerieController::class, 'index'])->name('series');
+Route::get('/series/{serie}/{slug?}', [SerieController::class, 'show'])->name('serie.show');
+
+// Rutas TvList - (se Usaban con el componente de blade DropdownAddlist con peticiones axios en Alpine, ahora se usa livewire)
+// Route::post('/tvlist',[TvListController::class, 'store'])->name('tvlist.store');
+// Route::get('/tvlist/{id}',[TvListController::class, 'checkUser'])->name('tvlist.checkuser');
+// Route::put('/tvlist/{tvlist}',[TvListController::class, 'update'])->name('tvlist.update');
+
+// Rutas de peliculas
+Route::get('/peliculas',[MovieController::class, 'index'])->name('peliculas');
+Route::get('/peliculas/{pelicula}/{slug?}', [MovieController::class, 'show'])->name('pelicula.show');

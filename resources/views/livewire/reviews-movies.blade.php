@@ -19,7 +19,7 @@
         @foreach ($allReviews as $review)
             <div>
                 <div class="flex w-full">
-                    <img class="object-cover w-16 h-16 mr-4 rounded-full " src="{{ $review->user->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                    <img class="object-cover w-16 h-16 mr-4 rounded-full " src="{{ $review->user->profile_photo_url }}" alt="{{$review->user->name }}" />
                     <div class="flex justify-between w-full">
                         <div>
                             <p class="mb-2">{{ $review->user->name }}</p>
@@ -51,76 +51,81 @@
             <hr class="my-4">
         @endforeach
     @endif
-    <div class="mt-12 ">
-        <div class="mb-4 ">
-            <img class="float-left object-cover w-20 h-20 mb-4 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-            @if ($oldData)
-                <div>
-                    <h2 class="text-lg font-bold text-teal-400">Reseñaste esta serie en {{ \Carbon\Carbon::parse($oldData->created_at)->format('M d, Y') }}</h2>
-                    <p class="text-gray-500 ">
-                        Si quieres puedes editarla y cambiar si la recomiendas.
-                        <span class="text-gray-800 cursor-pointer" wire:click="$toggle('showForm')">Editar reseña</span>
-                    </p>
-                </div>
-            @else
-                <div>
-                    <h2 class="text-lg font-bold text-teal-400">Escribe una reseña sobre: <span class="italic">{{ $movie['name'] }}</span></h2>
-                    <p class="text-gray-500 ">
-                        Describe lo que te ha gustado o no de esta serie/pelicula y si se lo recomendarías a otros.
-                        Recuerda ser educado/a y seguir las Normas y directrices.
-                    </p>
-                </div>
-
-            @endif
-        </div>
-        <form
-            wire:submit.prevent="submit()"
-            x-show="showForm"
-            x-on:submit.prevent
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 "
-            x-transition:enter-end="opacity-100 transform translate-y-0"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-end="opacity-0"
-            >
-            <div>
-                <input id="content" name="content" type="hidden" value="{{$content}}" />
-                <div wire:ignore>
-                    <trix-editor wire:model.debounce.300ms="content">
-                    </trix-editor>
-                </div>
-                @error('content') <span class="text-red-600 ">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="flex justify-between mt-2">
-                <div>
-                    <p class="mb-1">¿Recomiendas esta serie?</p>
-                    <x-jet-button type="button" wire:click="$set('recommended', 1)">
-                        <x-like-svg class="text-white" x-bind:class="{ ' text-green-400 animate-bounce' : recommended == true }" ></x-like-svg>
-                    </x-jet-button>
-                    <x-jet-button type="button" wire:click="$set('recommended', 0)">
-                        <x-dislike-svg class="text-gray-200 " x-bind:class="{ ' text-red-400 animate-bounce ' : recommended == false }" ></x-dislike-svg>
-                    </x-jet-button>
-                    @error('recommended') <span class="text-red-600">{{ $message }}</span> @enderror
-                </div>
+    @auth
+        <div class="mt-12 ">
+            <div class="mb-4 ">
+                <img class="float-left object-cover w-20 h-20 mb-4 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ $review->user->name }}" />
                 @if ($oldData)
-                    <x-jet-button type="button"  wire:click="update({{$oldData->id}})" class="self-end h-10 text-sm capitalize">
-                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                        {{ __('Update') }}
-                    </x-jet-button>
+                    <div>
+                        <h2 class="text-lg font-bold text-teal-400">Reseñaste esta serie en {{ \Carbon\Carbon::parse($oldData->created_at)->format('M d, Y') }}</h2>
+                        <p class="text-gray-500 ">
+                            Si quieres puedes editarla y cambiar si la recomiendas.
+                            <span class="text-gray-800 cursor-pointer" wire:click="$toggle('showForm')">Editar reseña</span>
+                        </p>
+                    </div>
                 @else
-                    <x-jet-button class="self-end h-10 text-sm capitalize">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                        </svg>
-                        {{ __('Add') }}
-                    </x-jet-button>
+                    <div>
+                        <h2 class="text-lg font-bold text-teal-400">Escribe una reseña sobre: <span class="italic">{{ $movie['name'] }}</span></h2>
+                        <p class="text-gray-500 ">
+                            Describe lo que te ha gustado o no de esta serie/pelicula y si se lo recomendarías a otros.
+                            Recuerda ser educado/a y seguir las Normas y directrices.
+                        </p>
+                    </div>
+
                 @endif
             </div>
-        </form>
-        <x-flash-messages></x-flash-messages>
-    </div>
+            <form
+                wire:submit.prevent="submit()"
+                x-show="showForm"
+                x-on:submit.prevent
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 "
+                x-transition:enter-end="opacity-100 transform translate-y-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-end="opacity-0"
+                >
+                <div>
+                    <input id="content" name="content" type="hidden" value="{{$content}}" />
+                    <div wire:ignore>
+                        <trix-editor wire:model.debounce.300ms="content">
+                        </trix-editor>
+                    </div>
+                    @error('content') <span class="text-red-600 ">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="flex justify-between mt-2">
+                    <div>
+                        <p class="mb-1">¿Recomiendas esta serie?</p>
+                        <x-jet-button type="button" wire:click="$set('recommended', 1)">
+                            <x-like-svg class="text-white" x-bind:class="{ ' text-green-400 animate-bounce' : recommended == true }" ></x-like-svg>
+                        </x-jet-button>
+                        <x-jet-button type="button" wire:click="$set('recommended', 0)">
+                            <x-dislike-svg class="text-gray-200 " x-bind:class="{ ' text-red-400 animate-bounce ' : recommended == false }" ></x-dislike-svg>
+                        </x-jet-button>
+                        @error('recommended') <span class="text-red-600">{{ $message }}</span> @enderror
+                    </div>
+                    @if ($oldData)
+                        <x-jet-button type="button"  wire:click="update({{$oldData->id}})" class="self-end h-10 text-sm capitalize">
+                            <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            {{ __('Update') }}
+                        </x-jet-button>
+                    @else
+                        <x-jet-button class="self-end h-10 text-sm capitalize">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                            </svg>
+                            {{ __('Add') }}
+                        </x-jet-button>
+                    @endif
+                </div>
+            </form>
+            <x-flash-messages></x-flash-messages>
+        </div>
+    @else
+        <p class="mt-4 ">»Debes <a href="{{ route('login') }}" class="text-gray-700 underline ">iniciar sesion</a>
+            antes de escribir una reseña</p>
+    @endauth
 </div>
 

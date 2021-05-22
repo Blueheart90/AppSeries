@@ -6,6 +6,7 @@ use App\Models\Score;
 use Livewire\Component;
 use App\Models\MovieList;
 use App\Models\WatchingState;
+use Illuminate\Support\Facades\Auth;
 
 class DropdownAddMovieList extends Component
 {
@@ -92,11 +93,15 @@ class DropdownAddMovieList extends Component
     public function addMovieList()
     {
         $validatedData = $this->validate();
-        auth()->user()->MovieLists()->create($validatedData['fields']);
-        $this->checkUser();
-        $this->open = false;
-        $this->editMode = true;
-        session()->flash('success', 'Agregada exitosamente');
+        if (Auth::check()) {
+            auth()->user()->MovieLists()->create($validatedData['fields']);
+            $this->checkUser();
+            $this->open = false;
+            $this->editMode = true;
+            session()->flash('success', 'Agregada exitosamente');
+        }else{
+            session()->flash('error', 'Debes iniciar sesion');
+        }
     }
 
 

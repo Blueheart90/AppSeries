@@ -171,17 +171,5 @@ class SerieController extends Controller
     {
         //
     }
-    public function search(Request $request)
-    {
-        //
-        // if ($request->ajax()) {
-        // }
-        $input = $request->input;
-        // Buscar TvShow
-        $busqueda = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/search/tv', ['language' => 'es-mx', 'query' => $input])
-        ->json()['results'];
 
-        return response($busqueda);
-    }
 }
