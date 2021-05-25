@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SerieController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\TvListController;
+use App\Http\Livewire\MyList;
 use App\Models\TvList;
 
 /*
@@ -35,7 +36,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         return view('users');
     })->name('users');
 
-
+    // Ruta administrar listas
+    Route::get('/mylist', MyList::class)->name('mylist');
 
 });
 

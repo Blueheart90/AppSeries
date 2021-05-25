@@ -11,6 +11,10 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                aclonica: 'Aclonica',
+                lobster: 'Lobster',
+                monoton: 'Monoton',
+                specialelite: 'Special Elite',
             },
         },
     },
