@@ -26,7 +26,7 @@
                         {{-- <div class="grid grid-cols-4 gap-8 p-10 text-white"> --}}
                             <div class="md:col-span-2">
                                 <figure>
-                                    <img  src="{{ $tvshow['poster_path'] }}" alt="poster" class="mx-auto transition duration-150 ease-in-out rounded-sm lazyload hover:opacity-75">
+                                    <img  src="{{ $tvshow['poster_url'] }}" alt="poster" class="mx-auto transition duration-150 ease-in-out rounded-sm lazyload hover:opacity-75">
                                     {{-- Desplegable con formulario --}}
                                     <div>
 

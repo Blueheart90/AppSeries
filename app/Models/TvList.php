@@ -20,7 +20,7 @@ class TvList extends Model
     }
 
     // Una serie pertenece a un estado
-    public function watchingstate()
+    public function watchingState()
     {
         return $this->belongsTo(WatchingState::class);
     }

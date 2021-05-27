@@ -83,7 +83,7 @@ class TvShowViewModel extends ViewModel
     public function tvshow()
     {
         return collect($this->tvshow)->merge([
-            'poster_path' => $this->tvshow['poster_path']
+            'poster_url' => $this->tvshow['poster_path']
                 ? 'https://www.themoviedb.org/t/p/w440_and_h660_face'.$this->tvshow['poster_path']
                 : 'https://via.placeholder.com/500x750',
             'vote_average' => $this->tvshow['vote_average'] * 10,
@@ -129,7 +129,7 @@ class TvShowViewModel extends ViewModel
             }),
 
         ])->only([
-            'poster_path', 'id', 'genres', 'name', 'vote_average', 'overview', 'first_air_date', 'credits' ,
+            'poster_path', 'poster_url', 'id', 'genres', 'name', 'vote_average', 'overview', 'first_air_date', 'credits' ,
             'videos', 'images', 'backdrops', 'crew', 'cast', 'images', 'random_bg', 'created_by', 'tagline', 'year', 'seasons', 'stringEpCount'
         ]);
     }

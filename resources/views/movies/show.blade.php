@@ -24,7 +24,7 @@
                         <div class="grid grid-flow-row gap-8 p-10 text-white md:grid-cols-6 md:grid-flow-col ">
                             <div class="md:col-span-2">
                                 <figure>
-                                    <img  src="{{ $movie['poster_path'] }}" alt="poster" class="mx-auto transition duration-150 ease-in-out rounded-sm lazyload hover:opacity-75">
+                                    <img  src="{{ $movie['poster_url'] }}" alt="poster" class="mx-auto transition duration-150 ease-in-out rounded-sm lazyload hover:opacity-75">
                                     {{-- Desplegable con formulario --}}
                                     <div>
 

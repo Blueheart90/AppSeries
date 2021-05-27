@@ -5,6 +5,7 @@
 
 }">
     {{-- @dump($oldData) --}}
+    {{-- @dd($allReviews) --}}
     <h2 class="mb-4 text-lg font-bold">{{ __('Reviews') }}</h2>
     @if ($allReviews->isEmpty())
         <div class="flex justify-center py-8 border border-green-400">
@@ -54,7 +55,7 @@
     @auth
         <div class="mt-12 ">
             <div class="mb-4 ">
-                <img class="float-left object-cover w-20 h-20 mb-4 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ $review->user->name }}" />
+                <img class="float-left object-cover w-20 h-20 mb-4 mr-4 rounded-full " src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                 @if ($oldData)
                     <div>
                         <h2 class="text-lg font-bold text-teal-400">Reseñaste esta serie en {{ \Carbon\Carbon::parse($oldData->created_at)->format('M d, Y') }}</h2>

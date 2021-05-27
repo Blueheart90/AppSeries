@@ -13,7 +13,7 @@ class MovieList extends Model
         'name', 'api_id', 'poster', 'review_id', 'score_id', 'watching_state_id', 'user_id'
     ];
 
-    // Una serie agregada a la tabla MovieList pertenece a un User
+    // Una Pelicula agregada a la tabla MovieList pertenece a un User
     public function user()
     {
         return $this->belongsTo(User::class);

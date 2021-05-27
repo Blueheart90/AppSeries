@@ -72,7 +72,7 @@ class MovieShowViewModel extends ViewModel
     public function movie()
     {
         return collect($this->movie)->merge([
-            'poster_path' => $this->movie['poster_path']
+            'poster_url' => $this->movie['poster_path']
                 ? 'https://www.themoviedb.org/t/p/w440_and_h660_face'.$this->movie['poster_path']
                 : 'https://via.placeholder.com/500x750',
             'vote_average' => $this->movie['vote_average'] * 10,
@@ -115,7 +115,7 @@ class MovieShowViewModel extends ViewModel
             'year' => Carbon::parse($this->movie['release_date'])->format('Y'),
 
         ])->only([
-            'poster_path', 'id', 'genres', 'name', 'vote_average', 'imdb_link', 'overview', 'release_date', 'runtime', 'credits' ,
+            'poster_path', 'poster_url', 'id', 'genres', 'name', 'vote_average', 'imdb_link', 'overview', 'release_date', 'runtime', 'credits' ,
             'videos', 'images', 'backdrops', 'crew', 'director', 'screenplay', 'cast', 'images', 'random_bg', 'tagline', 'year'
         ]);
     }
