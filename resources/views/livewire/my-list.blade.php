@@ -52,7 +52,31 @@
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                            <livewire:table-list />
+                            {{--------------------- Tabs ---------------------}}
+                            {{-- All --}}
+                            <div x-show.transition.in.opacity.duration.750ms="selected === 'all'">
+                                <livewire:table-list :tab="0" />
+                            </div>
+                            {{-- Watching --}}
+                            <div x-show.transition.in.opacity.duration.750ms="selected === 'watching'">
+                                <livewire:table-list :tab="1" />
+                            </div>
+                            {{-- Complete --}}
+                            <div x-show.transition.in.opacity.duration.750ms="selected === 'complete'">
+                                <livewire:table-list :tab="2" />
+                            </div>
+                            {{-- Onhold --}}
+                            <div x-show.transition.in.opacity.duration.750ms="selected === 'onhold'">
+                                <livewire:table-list :tab="3" />
+                            </div>
+                            {{-- Dropped --}}
+                            <div x-show.transition.in.opacity.duration.750ms="selected === 'dropped'">
+                                <livewire:table-list :tab="4" />
+                            </div>
+                            {{-- Plan To Watch --}}
+                            <div x-show.transition.in.opacity.duration.750ms="selected === 'plantowatch'">
+                                <livewire:table-list :tab="5" />
+                            </div>
                         </div>
                       </div>
                     </div>

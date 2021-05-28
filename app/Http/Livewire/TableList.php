@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class TableList extends Component
 {
+    public $tab;
     public $sortField = 'name';
     public $sortDirection = 'asc';
     public  $tableH = [
@@ -41,13 +42,32 @@ class TableList extends Component
     {
         // // $tv = MovieList::where('api_id', 615457);
         // $lists = TvList::where('user_id', 1)->orderBy('score_id', 'asc')->get();
-        $tv = TvList::where('user_id', auth()->id())->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
-                    ->selectRaw('"TvShow" as type');
-        $lists = MovieList::where('user_id', auth()->id())->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
-            ->selectRaw('Null as season, NULL as episode, "Movie" as type')
-            ->union($tv)
-            ->orderBy($this->sortField, $this->sortDirection)
-            ->get();
+
+        if ($this->tab == 0) {
+
+            $tv = TvList::where('user_id', auth()->id())
+                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
+                ->selectRaw('"TvShow" as type');
+
+            $lists = MovieList::where('user_id', auth()->id())
+                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
+                ->selectRaw('Null as season, NULL as episode, "Movie" as type')
+                ->union($tv)
+                ->orderBy($this->sortField, $this->sortDirection)
+                ->get();
+        } else {
+
+            $tv = TvList::where([['user_id', auth()->id()],['watching_state_id', $this->tab ]])
+                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
+                ->selectRaw('"TvShow" as type');
+
+            $lists = MovieList::where([['user_id', auth()->id()], ['watching_state_id', $this->tab]])
+                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
+                ->selectRaw('Null as season, NULL as episode, "Movie" as type')
+                ->union($tv)
+                ->orderBy($this->sortField, $this->sortDirection)
+                ->get();
+        }
 
         return view('livewire.table-list', compact('lists'));
     }

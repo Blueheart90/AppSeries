@@ -1,5 +1,4 @@
 <div>
-    @dump($lists)
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
         <tr>
@@ -42,7 +41,11 @@
                             </div>
                             <div class="ml-4">
                                 <div class="text-sm font-medium text-gray-900">
-                                    {{$list['name']}}
+                                    @if ($list['type'] == 'TvShow')
+                                        <a href="{{ route('serie.show', ['serie' => $list['api_id']]) }}" class="mt-2 text-lg hover:text-gray-300">{{ $list['name'] }}</a>
+                                    @else
+                                        <a href="{{ route('pelicula.show', ['pelicula' => $list['api_id'], 'slug' => 'peli']) }}" class="mt-2 text-lg hover:text-gray-300">{{ $list['name'] }}</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
