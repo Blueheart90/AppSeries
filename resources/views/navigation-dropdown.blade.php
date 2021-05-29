@@ -44,14 +44,22 @@
                             <x-jet-dropdown class="px-4 border-r border-gray-200" align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="flex items-center text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+                                        <div class="mr-2">
+                                            <svg class="w-5 h-5" version="1.1" viewBox="0 0 18 10" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <title/><desc/><defs/>
+                                                <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
+                                                    <g fill="currentColor" id="Core" transform="translate(-423.000000, -301.000000)">
+                                                        <g id="list" transform="translate(423.000000, 301.000000)">
+                                                            <path d="M0,6 L2,6 L2,4 L0,4 L0,6 L0,6 Z M0,10 L2,10 L2,8 L0,8 L0,10 L0,10 Z M0,2 L2,2 L2,0 L0,0 L0,2 L0,2 Z M4,6 L18,6 L18,4 L4,4 L4,6 L4,6 Z M4,10 L18,10 L18,8 L4,8 L4,10 L4,10 Z M4,0 L4,2 L18,2 L18,0 L4,0 L4,0 Z" id="Shape"/>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </div>
                                         <div>
                                             Mis listas
                                         </div>
-                                        <div class="ml-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
+
                                     </button>
                                 </x-slot>
                                 <x-slot name="content">
@@ -59,8 +67,8 @@
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         {{ __('Manage Lists') }}
                                     </div>
-                                    <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                        {{ __('Profile') }}
+                                    <x-jet-dropdown-link href="{{ route('list',  ['user' => Auth::user()->name]) }}">
+                                        {{ __('Ir a mi lista') }}
                                     </x-jet-dropdown-link>
                                 </x-slot>
                             </x-jet-dropdown>

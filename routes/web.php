@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     })->name('users');
 
     // Ruta administrar listas
-    Route::get('/mylist', MyList::class)->name('mylist');
+    Route::get('/list/{user}', MyList::class)->name('list');
 
 });
 
