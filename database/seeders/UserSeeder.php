@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Jesus David',
             'email' => 'chuchober@hotmail.com',
+            'username' => 'blueheart',
             'password' => Hash::make('123456'),
             'email_verified_at' => Carbon::now()
         ]);
@@ -27,12 +28,14 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Jacobo',
             'email' => 'jacobo@hotmail.com',
+            'username' => 'jacobo2010',
             'password' => Hash::make('123456'),
         ]);
 
         User::create([
             'name' => 'Gabriel',
             'email' => 'gabriel@hotmail.com',
+            'username' => 'gabriel_roblox',
             'password' => Hash::make('123456'),
         ]);
     }
