@@ -1,4 +1,5 @@
 <div>
+    @dump($userId)
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
         <tr>

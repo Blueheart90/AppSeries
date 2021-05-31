@@ -67,7 +67,7 @@
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         {{ __('Manage Lists') }}
                                     </div>
-                                    <x-jet-dropdown-link href="{{ route('list',  ['user' => Auth::user()->name]) }}">
+                                    <x-jet-dropdown-link href="{{ route('list',  ['username' => Auth::user()->username]) }}">
                                         {{ __('Ir a mi lista') }}
                                     </x-jet-dropdown-link>
                                 </x-slot>

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 class TableList extends Component
 {
     public $tab;
+    public $userId;
+
     public $sortField = 'name';
     public $sortDirection = 'asc';
     public  $tableH = [
@@ -45,11 +47,11 @@ class TableList extends Component
 
         if ($this->tab == 0) {
 
-            $tv = TvList::where('user_id', auth()->id())
+            $tv = TvList::where('user_id', $this->userId)
                 ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
                 ->selectRaw('"TvShow" as type');
 
-            $lists = MovieList::where('user_id', auth()->id())
+            $lists = MovieList::where('user_id', $this->userId)
                 ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
                 ->selectRaw('Null as season, NULL as episode, "Movie" as type')
                 ->union($tv)
@@ -57,11 +59,11 @@ class TableList extends Component
                 ->get();
         } else {
 
-            $tv = TvList::where([['user_id', auth()->id()],['watching_state_id', $this->tab ]])
+            $tv = TvList::where([['user_id', $this->userId],['watching_state_id', $this->tab ]])
                 ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
                 ->selectRaw('"TvShow" as type');
 
-            $lists = MovieList::where([['user_id', auth()->id()], ['watching_state_id', $this->tab]])
+            $lists = MovieList::where([['user_id', $this->userId], ['watching_state_id', $this->tab]])
                 ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
                 ->selectRaw('Null as season, NULL as episode, "Movie" as type')
                 ->union($tv)

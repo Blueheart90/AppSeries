@@ -1,5 +1,7 @@
 <div>
+    @dump($user_id)
     <div x-data="{
+        showModal: false,
         selected: '',
         marker: null,
         item: null,
@@ -55,33 +57,37 @@
                             {{--------------------- Tabs ---------------------}}
                             {{-- All --}}
                             <div x-show.transition.in.opacity.duration.750ms="selected === 'all'">
-                                <livewire:table-list :tab="0" />
+                                <livewire:table-list :tab="0" :userId="$user_id" />
                             </div>
                             {{-- Watching --}}
                             <div x-show.transition.in.opacity.duration.750ms="selected === 'watching'">
-                                <livewire:table-list :tab="1" />
+                                <livewire:table-list :tab="1" :userId="$user_id" />
                             </div>
                             {{-- Complete --}}
                             <div x-show.transition.in.opacity.duration.750ms="selected === 'complete'">
-                                <livewire:table-list :tab="2" />
+                                <livewire:table-list :tab="2" :userId="$user_id" />
                             </div>
                             {{-- Onhold --}}
                             <div x-show.transition.in.opacity.duration.750ms="selected === 'onhold'">
-                                <livewire:table-list :tab="3" />
+                                <livewire:table-list :tab="3" :userId="$user_id" />
                             </div>
                             {{-- Dropped --}}
                             <div x-show.transition.in.opacity.duration.750ms="selected === 'dropped'">
-                                <livewire:table-list :tab="4" />
+                                <livewire:table-list :tab="4" :userId="$user_id" />
                             </div>
                             {{-- Plan To Watch --}}
                             <div x-show.transition.in.opacity.duration.750ms="selected === 'plantowatch'">
-                                <livewire:table-list :tab="5" />
+                                <livewire:table-list :tab="5" :userId="$user_id" />
                             </div>
                         </div>
+                        <button @click="showModal = true" class="px-8 py-3 bg-red-500 hover:bg-red-600">Modal</button>
                       </div>
                     </div>
                 </div>
             </div>
         </div>
+        <x-modal trigger="showModal" color="pink">
+            <p class="text-5xl font-extrabold text-center text-white ">Let's do it!</p>
+        </x-modal>
     </div>
 </div>
