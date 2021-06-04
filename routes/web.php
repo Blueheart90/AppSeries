@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SerieController;
-use App\Http\Controllers\MovieController;
-use App\Http\Controllers\TvListController;
-use App\Http\Livewire\MyList;
 use App\Models\TvList;
+use App\Http\Livewire\MyList;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\SerieController;
+use App\Http\Controllers\MyListController;
+use App\Http\Controllers\TvListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,10 +37,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         return view('users');
     })->name('users');
 
-    // Ruta administrar listas
-    Route::get('/list/{username}', MyList::class)->name('list');
 
 });
+
+
+// Ruta administrar listas
+// Route::get('/list/{username}', MyList::class)->name('list');
+Route::get('/list/{username}', [MyListController::class, 'show'])->name('list');
 
 // Rutas de Series
 Route::get('/series',[SerieController::class, 'index'])->name('series');

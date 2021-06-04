@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MyList extends Component
 {
@@ -13,9 +14,14 @@ class MyList extends Component
 
     public function mount($username)
     {
-        $this->user_id = User::where('username', $username)->first()->id;
+
         $this->header = 'Mi Lista';
-        Log::debug("message:" . $this->user_id);
+
+        try {
+            $this->user_id = User::where('username', $username)->firstOrFail()->id;
+        } catch (ModelNotFoundException $e) {
+            session()->flash('error', 'El usuario con el Username: ' . $username .' No existe');
+        }
     }
     public function render()
     {
