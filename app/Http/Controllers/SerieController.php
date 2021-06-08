@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Score;
 use App\Models\Serie;
 use App\Models\TvList;
-use App\Models\WatchingState;
 use Illuminate\Http\Request;
+use App\Models\WatchingState;
 use App\ViewModels\TvViewModel;
 use App\ViewModels\TvShowViewModel;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use App\Exceptions\ApiResourceNotFoundException;
 
 class SerieController extends Controller
 {
@@ -110,10 +112,20 @@ class SerieController extends Controller
         $imageLanguage = 'en,es,null';
         $appendResponse = 'credits,videos,images';
 
-        // Series tentencia
-        $tvShowDetails = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/tv/' . $serie, ['language' => $language,'append_to_response' => $appendResponse, 'include_image_language' => $imageLanguage])
-            ->json();
+        try {
+            // Detalles de la Serie
+            $tvShowDetails = Http::withToken(config('services.tmdb.token'))
+                ->get('https://api.themoviedb.org/3/tv/' . $serie, ['language' => $language,'append_to_response' => $appendResponse, 'include_image_language' => $imageLanguage])
+                ->json();
+
+            if (array_key_exists('success', $tvShowDetails)) {
+
+                throw new ApiResourceNotFoundException('El recurso no esta disponible en la api');
+            }
+        } catch (ApiResourceNotFoundException $e) {
+            session()->flash('message', $e->getMessage());
+            return view('users.notfound');
+        }
 
         // ** Se comprueba si el user ya agregó la serie
         // $tvCheck = TvList::where([['api_id', $serie],['user_id', Auth::id()]])->exists();

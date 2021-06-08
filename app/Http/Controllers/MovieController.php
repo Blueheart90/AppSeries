@@ -10,6 +10,7 @@ use App\ViewModels\MovieViewModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\ViewModels\MovieShowViewModel;
+use App\Exceptions\ApiResourceNotFoundException;
 
 class MovieController extends Controller
 {
@@ -94,10 +95,22 @@ class MovieController extends Controller
         $imageLanguage = 'en,es,null';
         $appendResponse = 'credits,videos,images';
 
-        // Detalles de Pelicula
-        $movieShowDetails = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/movie/' . $movie, ['language' => $language,'append_to_response' => $appendResponse, 'include_image_language' => $imageLanguage])
-            ->json();
+
+
+        try {
+            // Detalles de Pelicula
+            $movieShowDetails = Http::withToken(config('services.tmdb.token'))
+                ->get('https://api.themoviedb.org/3/movie/' . $movie, ['language' => $language,'append_to_response' => $appendResponse, 'include_image_language' => $imageLanguage])
+                ->json();
+
+            if (array_key_exists('success', $movieShowDetails)) {
+
+                throw new ApiResourceNotFoundException('El recurso no esta disponible en la api');
+            }
+        } catch (ApiResourceNotFoundException $e) {
+            session()->flash('message', $e->getMessage());
+            return view('users.notfound');
+        }
 
         // ** Se comprueba si el user ya agregó la movie
         // $movieCheck = movieList::where([['api_id', $movie],['user_id', Auth::id()]])->exists();
