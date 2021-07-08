@@ -81,14 +81,10 @@
                                 <livewire:table-list :tab="5" :userId="$user_id" />
                             </div>
                         </div>
-                        <button @click="showModal = true" class="px-8 py-3 bg-red-500 hover:bg-red-600">Modal</button>
                       </div>
                     </div>
                 </div>
             </div>
         </div>
-        <x-modal trigger="showModal" color="pink">
-            <p class="text-5xl font-extrabold text-center text-white ">Let's do it!</p>
-        </x-modal>
     </div>
 </div>
