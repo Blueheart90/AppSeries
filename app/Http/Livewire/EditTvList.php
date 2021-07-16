@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Score;
+use App\Models\TvList;
 use Livewire\Component;
 use App\Classes\FormatTvshow;
 use App\Models\WatchingState;
@@ -15,15 +16,22 @@ class EditTvList extends Component
     public $showModal = false;
     public $tvshow;
     public $stateWatchingList;
+    public $epForSeason;
+    public $scoreList;
     public $fields = [
         'watching_state_id' => 0,
+        'id' => 0,
         'season' => 1,
         'episode' => 1,
         'score_id' => 0,
     ];
 
-    public $epForSeason;
-    public $scoreList;
+    protected $rules = [
+        'fields.watching_state_id' => 'gt:0',
+        'fields.season' => 'required',
+        'fields.score_id' => 'gt:0',
+        'fields.episode' => 'required'
+    ];
 
 
     protected $listeners = ['modal' => 'modal'];
@@ -94,6 +102,15 @@ class EditTvList extends Component
         //  dump($e);
         // Log::debug("prueba desde modal " . $e['api_id']);
 
+    }
+
+    public function updateTvList(TvList $tvList)
+    {
+        $tvList->update($this->fields);
+        // $this->open = false;
+        session()->flash('success', 'Editada exitosamente');
+
+        // Log::debug("tvlist: " . $tvList);
     }
 
 

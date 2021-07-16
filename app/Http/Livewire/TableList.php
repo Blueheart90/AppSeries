@@ -48,11 +48,11 @@ class TableList extends Component
         if ($this->tab == 0) {
 
             $tv = TvList::where('user_id', $this->userId)
-                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
+                ->select(['id', 'name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
                 ->selectRaw('"TvShow" as type');
 
             $lists = MovieList::where('user_id', $this->userId)
-                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
+                ->select(['id', 'name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
                 ->selectRaw('Null as season, NULL as episode, "Movie" as type')
                 ->union($tv)
                 ->orderBy($this->sortField, $this->sortDirection)
@@ -60,11 +60,11 @@ class TableList extends Component
         } else {
 
             $tv = TvList::where([['user_id', $this->userId],['watching_state_id', $this->tab ]])
-                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
+                ->select(['id', 'name', 'api_id', 'poster', 'watching_state_id', 'score_id', 'season', 'episode'])
                 ->selectRaw('"TvShow" as type');
 
             $lists = MovieList::where([['user_id', $this->userId], ['watching_state_id', $this->tab]])
-                ->select(['name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
+                ->select(['id', 'name', 'api_id', 'poster', 'watching_state_id', 'score_id'])
                 ->selectRaw('Null as season, NULL as episode, "Movie" as type')
                 ->union($tv)
                 ->orderBy($this->sortField, $this->sortDirection)
