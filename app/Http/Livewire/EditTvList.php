@@ -24,6 +24,7 @@ class EditTvList extends Component
         'season' => 1,
         'episode' => 1,
         'score_id' => 0,
+        'poster' => null,
     ];
 
     protected $rules = [
