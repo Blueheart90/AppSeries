@@ -4,6 +4,7 @@
             Series
         </h2>
     </x-slot>
+    @dump($genres)
     <div class="py-12">
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
@@ -53,7 +54,7 @@
                             </div>
                             <div class="mt-8" x-init=""  x-show.transition.in.opacity.duration.750ms="selected === 'categorias'">
                                 <h3 class="mb-4 ml-4">Filtrar Por Categoria:</h3>
-                                <x-widget-genres class="mb-4" :genres="$genres"></x-widget-genres>
+                                <x-widget-genres class="mb-4" :genres='$genres'></x-widget-genres>
                                 <x-search-results></x-search-results>
 
                             </div>

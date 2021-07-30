@@ -1,4 +1,4 @@
-@props(['trigger','color'])
+@props(['trigger'])
 <div
     class="fixed top-0 flex items-center w-full h-full bg-gray-900 bg-opacity-60"
     x-show="{{$trigger}}"
@@ -11,7 +11,7 @@
     x-cloak
     >
     <div
-        {{$attributes->merge(['class' => "p-8 m-auto bg-$color-500 rounded-xl"])}}
+        {{$attributes->merge(['class' => " m-auto rounded-xl"])}}
         @click.away="{{$trigger}} = false"
         >
        {{ $slot }}

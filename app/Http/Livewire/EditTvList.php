@@ -35,7 +35,7 @@ class EditTvList extends Component
     ];
 
 
-    protected $listeners = ['modal' => 'modal'];
+    protected $listeners = ['modalTv' => 'modal'];
 
 
     public function mount() {

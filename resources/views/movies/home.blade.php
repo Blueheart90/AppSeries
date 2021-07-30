@@ -53,7 +53,7 @@
                             </div>
                             <div class="mt-8" x-init=""  x-show.transition.in.opacity.duration.750ms="selected === 'categorias'">
                                 <h3 class="mb-4 ml-4">Filtrar Por Categoria:</h3>
-                                <x-widget-genres class="mb-4" :genres="$genres"></x-widget-genres>
+                                <x-widget-genres class="mb-4" :genres='$genres'></x-widget-genres>
                                 <x-search-results-movies></x-search-results-movies>
 
                             </div>

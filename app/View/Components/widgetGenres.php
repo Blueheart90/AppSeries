@@ -11,9 +11,12 @@ class widgetGenres extends Component
      *
      * @return void
      */
-    public function __construct()
+
+    public $genres;
+
+    public function __construct($genres)
     {
-        //
+        $this->genres = $genres;
     }
 
     /**
