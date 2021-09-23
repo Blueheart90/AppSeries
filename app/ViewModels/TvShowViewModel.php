@@ -42,11 +42,12 @@ class TvShowViewModel extends ViewModel
         // return Http::get('https://flagcdn.com/en/codes.json')
         // ->json()[$nameCode];
 
-        $response = Http::get('https://restcountries.eu/rest/v2/alpha/' . $codeNameCountry)
+        $response = Http::get('https://restcountries.com/v2/alpha/' . $codeNameCountry)
         ->json();
 
         return collect($response)->merge([
-            'language' => $response['languages'][0]['name']
+            'language' => $response['languages'][0]['name'],
+            'flag' => $response['flags'][0],
         ])->only(['name', 'language', 'flag']);
 
     }
