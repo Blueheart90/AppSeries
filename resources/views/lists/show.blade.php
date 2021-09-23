@@ -92,6 +92,7 @@
 
 
             <livewire:edit-tv-list />
+            <livewire:edit-movie-list />
 
 
         </div>

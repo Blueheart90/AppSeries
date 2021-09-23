@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Score;
 use Livewire\Component;
+use App\Models\MovieList;
+use App\Models\WatchingState;
 
 class EditMovieList extends Component
 {
     public $showModal = false;
-    public $tvshow;
     public $stateWatchingList;
     public $scoreList;
     public $fields = [
@@ -66,6 +68,7 @@ class EditMovieList extends Component
         $movieList->update($this->fields);
         // $this->open = false;
         session()->flash('success', 'Editada exitosamente');
+        $this->emitTo('table-list', 'refreshComponent');
 
         // Log::debug("tvlist: " . $tvList);
     }

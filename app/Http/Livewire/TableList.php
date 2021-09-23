@@ -12,6 +12,8 @@ class TableList extends Component
 {
     public $tab;
     public $userId;
+    public $prueba;
+
 
     public $sortField = 'name';
     public $sortDirection = 'asc';
@@ -29,6 +31,9 @@ class TableList extends Component
         4 => 'red',
         5 => 'gray'
     ];
+
+    protected $listeners = ['refreshComponent' => '$refresh'];
+
 
     public function sortBy($field)
     {

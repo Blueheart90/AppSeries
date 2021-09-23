@@ -110,7 +110,7 @@ class EditTvList extends Component
         $tvList->update($this->fields);
         // $this->open = false;
         session()->flash('success', 'Editada exitosamente');
-
+        $this->emitTo('table-list', 'refreshComponent');
         // Log::debug("tvlist: " . $tvList);
     }
 
