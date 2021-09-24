@@ -15,6 +15,7 @@
         </h2>
     </x-slot>
     <div class="py-12">
+        @dump($tvshow)
         <div class="max-w-screen-xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                 <div class="bg-white ">

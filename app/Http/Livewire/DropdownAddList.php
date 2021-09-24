@@ -46,6 +46,12 @@ class DropdownAddList extends Component
 
         $this->stateWatchingList = $this->state();
 
+        // Se asigna a season la primera temp disponible,
+        // ya que de algunas series no se tienen registros de todas las temporadas
+
+        $this->fields['season'] = $this->tvshow['seasons']->keys()->min();
+        // $this->fields['season'] = array_key_first($this->tvshow['seasons']->toArray());
+
         // Se obtiene el valor de los episodes por season en la primera carga
         $this->getEpisodesForSeason($this->fields['season']);
 
