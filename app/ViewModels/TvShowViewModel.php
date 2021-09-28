@@ -47,7 +47,7 @@ class TvShowViewModel extends ViewModel
 
         return collect($response)->merge([
             'language' => $response['languages'][0]['name'],
-            'flag' => $response['flags'][0],
+            // 'flag' => $response['flags'][0],
         ])->only(['name', 'language', 'flag']);
 
     }
