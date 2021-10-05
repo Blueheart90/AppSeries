@@ -17,7 +17,7 @@
             </div>
             <div class="w-full text-center md:w-1/2">
 
-                <img src="{{ Storage::url('img/page-not-found-' . rand(1,2) .'.png') }}" alt="">
+                <img src="{{ Storage::url('img/page-not-found-' . rand(1,2) .'.png') }}" alt="page no found">
             </div>
         </div>
     </div>
