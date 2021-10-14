@@ -34,7 +34,7 @@
                                     @endforeach
                                 </ul>
                                 <div class="relative">
-                                    <x-jet-input class="" placeholder="Buscar serie" x-model="searchValue" @keyUp.debounce.750="search()">
+                                    <x-jet-input class="border" placeholder="Buscar serie" x-model="searchValue" @keyUp.debounce.750="search()">
                                     </x-jet-input>
                                 </div>
 
